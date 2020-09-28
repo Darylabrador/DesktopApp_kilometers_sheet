@@ -6,6 +6,8 @@ Below you will find the data dictionary using the screenshoot :
     <img src="https://github.com/Darylabrador/kilometers_sheet/blob/dataDictionary/ressources.png" width="650" title="hover text">
 </p>
 
+
+<table>
 <tr>
     <th>Property</th>
     <th>Type</th>
@@ -71,3 +73,4 @@ Below you will find the data dictionary using the screenshoot :
     <td> Text </td>
     <td> Travel comment's </td>
 </tr>
+</table>
