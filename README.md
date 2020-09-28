@@ -16,25 +16,25 @@ Below you will find the data dictionary using the screenshoot :
 
 <tr>
     <td> speedometerStart </td>
-    <td> Integer </td>
+    <td> Float </td>
     <td> Informations about speedometer at start </td>
 </tr>
 
 <tr>
     <td> speedometerEnd </td>
-    <td> Integer </td>
+    <td> Float </td>
     <td> Informations about speedometer at end </td>
 </tr>
 
 <tr>
     <td> distance </td>
-    <td> Integer </td>
+    <td> Float </td>
     <td> kilometer traveled </td>
 </tr>
 
 <tr>
     <td> compensation </td>
-    <td> Integer </td>
+    <td> Float </td>
     <td> The compensation </td>
 </tr>
 
@@ -73,4 +73,29 @@ Below you will find the data dictionary using the screenshoot :
     <td> Text </td>
     <td> Travel comment's </td>
 </tr>
+
+<tr>
+    <td> horsepower </td>
+    <td> Integer </td>
+    <td> vehicle horsepower's </td>
+</tr>
+
+<tr>
+    <td> scale1 </td>
+    <td> Float </td>
+    <td> Scale from 0 to 5000 km </td>
+</tr>
+
+<tr>
+    <td> scale2 </td>
+    <td> Float </td>
+    <td> Scale from 5001 to 20 000 km </td>
+</tr>
+
+<tr>
+    <td> scale3 </td>
+    <td> Float </td>
+    <td> Scale from 20 001 km and more </td>
+</tr>
+
 </table>
