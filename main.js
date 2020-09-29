@@ -46,6 +46,9 @@ function init(callback) {
   /** view engine setup*/
   expressApp.set('views', path.join(__dirname, 'views'));
   expressApp.set('view engine', 'ejs');
+  
+  expressApp.use(express.json());
+  expressApp.use(express.urlencoded({ extended: false }));
   expressApp.use(express.static(path.join(__dirname, 'public')));
 
   /* Keep server down */
@@ -60,7 +63,7 @@ function init(callback) {
  * @param {*} callback 
  */
 function loadRoutes(callback) {
-  expressApp.get("/", authRoutes);
+  expressApp.use("/", authRoutes);
   if (typeof callback != 'undefined') {
     callback();
   }
