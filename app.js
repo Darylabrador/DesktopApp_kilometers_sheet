@@ -1,41 +1,42 @@
-var createError   = require('http-errors');
-var express       = require('express');
-var path          = require('path');
-var cookieParser  = require('cookie-parser');
-var logger        = require('morgan');
+const { app, BrowserWindow } = require('electron');
+const startingApp = require('./main');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+/**
+ * Créer la fenetre de l'application
+ */
+function createWindow() {
+    let win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
 
-var app = express();
+    win.loadURL('http://localhost:3000');
+    win.webContents.openDevTools();
+    win.on('closed', () => {
+        win = null;
+    });
+}
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+/* On attend qu'Electron.js soit prêt pour créer la fenêtre */
+app.on('ready', function () {
+    startingApp.start(function () {
+        createWindow();
+    });
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+/* Cette fonction arrête totalement l'application lorsque toutes les fenêtres sont fermées */
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
 });
 
-module.exports = app;
+/* Fonction utile pour MacOS */
+app.on('activate', () => {
+    if (win === null) {
+        createWindow();
+    }
+});
