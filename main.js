@@ -37,6 +37,7 @@ function start(callback) {
   }
 }
 
+
 /**
  * Initialisation of view engine and others parameters
  * @param {*} callback 
