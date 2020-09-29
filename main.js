@@ -3,24 +3,23 @@ const express     = require('express');
 const expressApp  = express();
 const http        = require('http').Server(expressApp);
 
-// Appel des routes
+// Routes handler
 const authRoutes = require('./routes/authRoute');
 
-/* Initialisation des variables */
+/* variable initialisation's */
 const router = {
   isStarted: false
 };
 
 
 /**
- * Démarrer le serveur web
+ * Starting web server on port 3000
  * @param {*} callback 
  */
 function start(callback) {
   if (router.isStarted === false) {
     init(function () {
       loadRoutes(function () {
-        /* Lance le serveur web sur le port 3000 */
         http.listen(3000, function () {
           console.log('Application is running on port 3000');
           router.isStarted = true;
@@ -39,16 +38,17 @@ function start(callback) {
 }
 
 /**
- * Initialisation du view engine et des paramètres annexe
+ * Initialisation of view engine and others parameters
  * @param {*} callback 
  */
 function init(callback) {
+
   /** view engine setup*/
   expressApp.set('views', path.join(__dirname, 'views'));
   expressApp.set('view engine', 'ejs');
   expressApp.use(express.static(path.join(__dirname, 'public')));
 
-  /* On s'assure que le serveur n'est vraiment pas démarré */
+  /* Keep server down */
   router.isStarted = false;
   if (typeof callback != 'undefined') {
     callback();
@@ -56,7 +56,7 @@ function init(callback) {
 }
 
 /**
- * Gestion des routes
+ * Route's management
  * @param {*} callback 
  */
 function loadRoutes(callback) {
