@@ -4,7 +4,8 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "start": "electromon ./app.js",
+    "start": "electron ./app.js",
+    "elecdev": "electromon ./app.js",
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {

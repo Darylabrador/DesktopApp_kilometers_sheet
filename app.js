@@ -1,6 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 
-const startingApp = require('./main');
+const startingApp = require('./electronSetup');
 
 /**
  * Create app window

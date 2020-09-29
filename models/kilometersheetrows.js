@@ -37,6 +37,10 @@ const KilometerSheetsRows = sequelize.define('kilometerSheetsRows', {
         type: DataTypes.FLOAT,
         allowNull: false
     },
+    comments: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
 }, { timestamps: true });
 
 module.exports = KilometerSheetsRows;
