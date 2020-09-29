@@ -58,6 +58,7 @@ function start(callback) {
         // 1 kilometersheetrows can have many moveReason
         MoveReasons.hasMany(KilometerSheetRows);
 
+        // database connection and sync
         database
           .sync()
           .then(result => {

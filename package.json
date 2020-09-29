@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron ./app.js",
     "elecdev": "electromon ./app.js",
-    "dev": "nodemon ./bin/www"
+    "sass": "sass --watch ./public/scss/base/style.scss:./public/css/style.css",
+    "compressed": "sass ./public/scss/base/style.scss:./public/css/style.css --style compressed"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
