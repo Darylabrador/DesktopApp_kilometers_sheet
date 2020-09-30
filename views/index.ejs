@@ -3,6 +3,9 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/css/style.css' />
+    <script> window.$ = window.jQuery = require('jquery');</script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
   </head>
   <body>
     <h1><%= title %></h1>
@@ -12,5 +15,7 @@
       <input type="text" name="login" id="login">
       <button type="submit"> envoyer </button>
     </form>
+
+    <script src="/js/script.js"></script>
   </body>
 </html>
