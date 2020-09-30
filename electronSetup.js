@@ -8,6 +8,7 @@ const database    = require('./config/database');
 const Entities            = require('./models/entities');
 const Persons             = require('./models/persons');
 const Vehicles            = require('./models/vehicles');
+const Horsepowers         = require('./models/horsepowers');
 const KilometerSheets     = require('./models/kilometersheets');
 const KilometerSheetRows  = require('./models/kilometersheetrows');
 const MoveReasons         = require('./models/movereasons');
@@ -45,6 +46,9 @@ function start(callback) {
         Persons.belongsToMany(Vehicles, {through: PersonsVehicles});
         Vehicles.belongsToMany(Persons, {through: PersonsVehicles});
 
+        // 1 horsepowers can be attribute to many vehicule
+        Horsepowers.hasMany(Vehicles);
+
         // 1 person can have many kilometerSheet
         // 1 Entity can have many kilometerSheet
         // 1 vehicles can have many kilometerSheet
@@ -60,7 +64,7 @@ function start(callback) {
 
         // database connection and sync
         database
-          .sync()
+          .sync({force: true})
           .then(result => {
 
             // starting web server

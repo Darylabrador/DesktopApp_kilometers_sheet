@@ -1,3 +1,3 @@
 $(function () {
-    $('body').addClass("bg-dark")
+    $('body').addClass("bg-dark");
 })
