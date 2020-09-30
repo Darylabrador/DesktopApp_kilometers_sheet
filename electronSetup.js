@@ -3,6 +3,8 @@ const express     = require('express');
 const expressApp  = express();
 const http        = require('http').Server(expressApp);
 const database    = require('./config/database');
+const session     = require('express-session');
+const flash       = require('connect-flash');
 
 // Get all models
 const Entities            = require('./models/entities');
@@ -64,7 +66,7 @@ function start(callback) {
 
         // database connection and sync
         database
-          .sync({force: true})
+          .sync()
           .then(result => {
 
             // starting web server
@@ -97,10 +99,31 @@ function init(callback) {
   /** view engine setup*/
   expressApp.set('views', path.join(__dirname, 'views'));
   expressApp.set('view engine', 'ejs');
-  
   expressApp.use(express.json());
   expressApp.use(express.urlencoded({ extended: false }));
   expressApp.use(express.static(path.join(__dirname, 'public')));
+
+  /** middleware setup */
+  expressApp.use(
+    session({
+      name: 'default',
+      secret: 'IdHmkkt7KJDJgbnlkejaosOUazV0JdaeasdLKLHdjKJKHEZ65486SFERTqeazae',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        sameSite: true,
+        maxAge: 3600 * 1000 * 3
+      }
+    })
+  );
+
+  expressApp.use(flash());
+
+  expressApp.use((req, res, next) => {
+    res.locals.success_message = req.flash('success');
+    res.locals.error_message   = req.flash('error');
+    next();
+  });
 
   /* Keep server down */
   router.isStarted = false;

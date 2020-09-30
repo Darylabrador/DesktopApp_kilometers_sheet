@@ -71,3 +71,30 @@ nav {
     background-color: red !important;
   }
 }
+
+.btnLogin{
+  background-color: colors.$backgroundLoginBtn !important;
+  border-radius: 15px !important;
+  padding: 5px 50px !important;
+  cursor: pointer !important;
+
+  &:hover{
+    background-color: colors.$backgroundDarkBlue !important;
+  }
+}
+
+#loginForms{
+  color: colors.$fontColorWhite !important;
+
+  input{
+    outline: none !important;
+    background: rgba(40, 62, 89, 0.932) !important;
+    color: #5d86c1 !important;
+    border: 2px solid colors.$backgroundLoginBtn !important;
+
+    &:focus,&:active {
+      outline: none !important;
+      box-shadow: none;
+    }
+  }
+}
