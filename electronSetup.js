@@ -16,7 +16,7 @@ const PersonsVehicles     = require('./models/personsVehicles');
 const PersonsWorkFors     = require('./models/personsworkfors');
 
 // Routes handler
-const authRoutes = require('./routes/authRoute');
+const generalRoutes = require('./routes/generalRoutes');
 
 /* variable initialisation's */
 const router = {
@@ -114,7 +114,7 @@ function init(callback) {
  * @param {*} callback 
  */
 function loadRoutes(callback) {
-  expressApp.use("/", authRoutes);
+  expressApp.use("/", generalRoutes);
   if (typeof callback != 'undefined') {
     callback();
   }

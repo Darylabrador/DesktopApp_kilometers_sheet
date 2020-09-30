@@ -30,3 +30,44 @@ a{
 p, #copyright{
   @include mixins.fontTitre('Playfair Display', sans-serif);
 }
+
+nav {
+  -webkit-app-region: drag;
+}
+
+.btn {
+  padding-top: 0 !important;
+  padding-bottom: 5px !important;
+  outline: none !important;
+  border: none !important;
+  cursor: default !important;
+  -webkit-app-region: no-drag;
+
+  &:focus,&:active {
+    outline: none !important;
+    box-shadow: none;
+  }
+}
+
+.bg-lightblue-color {
+  background-color: colors.$backgroundLightBlue;
+}
+
+.bg-darkblue-color{
+  background-color: colors.$backgroundDarkBlue;
+}
+
+.btn-window {
+  background-color: transparent !important;
+  color: colors.$fontColorWhite !important;
+  font-weight: normal !important;
+  width: 45px !important;
+
+  &:hover{
+    background-color: colors.$backgroundLightBlue !important;
+  }
+
+  &.btn-close:hover {
+    background-color: red !important;
+  }
+}

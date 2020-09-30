@@ -7,11 +7,14 @@ const startingApp = require('./electronSetup');
  */
 function createWindow() {
     let win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1080,
+        height: 630,
         frame: false,
+        minWidth: 1080,
+        minHeight: 630,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            enableRemoteModule: true
         }
     });
 

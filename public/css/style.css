@@ -10376,4 +10376,42 @@ p, #copyright {
   font-family: "Playfair Display", sans-serif;
 }
 
+nav {
+  -webkit-app-region: drag;
+}
+
+.btn {
+  padding-top: 0 !important;
+  padding-bottom: 5px !important;
+  outline: none !important;
+  border: none !important;
+  cursor: default !important;
+  -webkit-app-region: no-drag;
+}
+.btn:focus, .btn:active {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.bg-lightblue-color {
+  background-color: #3B5374;
+}
+
+.bg-darkblue-color {
+  background-color: #283E59;
+}
+
+.btn-window {
+  background-color: transparent !important;
+  color: #fff !important;
+  font-weight: normal !important;
+  width: 45px !important;
+}
+.btn-window:hover {
+  background-color: #3B5374 !important;
+}
+.btn-window.btn-close:hover {
+  background-color: red !important;
+}
+
 /*# sourceMappingURL=style.css.map */
