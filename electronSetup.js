@@ -18,8 +18,9 @@ const PersonsVehicles     = require('./models/personsVehicles');
 const PersonsWorkFors     = require('./models/personsworkfors');
 
 // Routes handler
-const generalRoutes = require('./routes/generalRoutes');
-const actionsRoutes = require('./routes/actionsRoutes');
+const generalRoutes       = require('./routes/generalRoutes');
+const authRoutes          = require('./routes/authRoutes');
+const horsepowersRoutes   = require('./routes/horsepowersRoutes');
 
 /* variable initialisation's */
 const router = {
@@ -139,7 +140,9 @@ function init(callback) {
  */
 function loadRoutes(callback) {
   expressApp.use("/", generalRoutes);
-  expressApp.use("/", actionsRoutes);
+  expressApp.use("/", authRoutes);
+  expressApp.use("/horsepowers", horsepowersRoutes);
+  
   if (typeof callback != 'undefined') {
     callback();
   }

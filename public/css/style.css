@@ -10391,6 +10391,15 @@ nav {
   outline: none !important;
   box-shadow: none;
 }
+.btn.btnDashboard {
+  background-color: #5498f8e2;
+  transition: all 500 ease-in;
+  font-weight: bold !important;
+}
+.btn.btnDashboard:hover {
+  background-color: white !important;
+  color: #002252 !important;
+}
 
 .close {
   outline: none !important;
@@ -10417,7 +10426,7 @@ nav {
   width: 45px !important;
 }
 .btn-window:hover {
-  background-color: #3B5374 !important;
+  background-color: #002252 !important;
 }
 .btn-window.btn-close:hover {
   background-color: red !important;
@@ -10499,8 +10508,8 @@ nav {
 }
 
 .main {
-  margin-left: 160px;
-  padding: 0px 10px;
+  margin-left: 200px;
+  padding: 10px 10px;
 }
 
 /* --------- CUSTOM SCROLLBAR --------- */

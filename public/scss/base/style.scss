@@ -46,6 +46,18 @@ nav {
     outline: none !important;
     box-shadow: none;
   }
+
+  &.btnDashboard {
+    background-color:  #5498f8e2;
+    transition: all 500 ease-in;
+    font-weight: bold !important;
+
+    &:hover{
+      background-color: white !important;
+      color: colors.$backgroundLoginBtn !important;
+    }
+  }
+
 }
 
 
@@ -75,7 +87,7 @@ nav {
   width: 45px !important;
 
   &:hover{
-    background-color: colors.$backgroundLightBlue !important;
+    background-color: colors.$backgroundLoginBtn !important;
   }
 
   &.btn-close:hover {
@@ -170,11 +182,12 @@ nav {
 }
 
 .main {
-  margin-left: 160px;
-  padding: 0px 10px;
+  margin-left: 200px;
+  padding: 10px 10px;
 }
 
 /* --------- CUSTOM SCROLLBAR --------- */
+
 /* width */
 ::-webkit-scrollbar {
   width: 3px;
