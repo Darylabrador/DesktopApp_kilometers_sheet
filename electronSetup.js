@@ -19,6 +19,7 @@ const PersonsWorkFors     = require('./models/personsworkfors');
 
 // Routes handler
 const generalRoutes = require('./routes/generalRoutes');
+const actionsRoutes = require('./routes/actionsRoutes');
 
 /* variable initialisation's */
 const router = {
@@ -138,6 +139,7 @@ function init(callback) {
  */
 function loadRoutes(callback) {
   expressApp.use("/", generalRoutes);
+  expressApp.use("/", actionsRoutes);
   if (typeof callback != 'undefined') {
     callback();
   }
