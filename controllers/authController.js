@@ -53,7 +53,6 @@ exports.postLogin = async (req, res, next) => {
  * @returns {VIEW} redirect to '/persons'
  * @throws Will throw an error if one error occursed
  */
-/*
 exports.postSignup = async (req, res, next) => {
     const { login, password, name, surname, role } = req.body;
 
@@ -78,7 +77,6 @@ exports.postSignup = async (req, res, next) => {
         console.log(error);
     }
 }
-*/
 
 
 /**

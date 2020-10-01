@@ -110,11 +110,15 @@ nav {
   left: 0;
   background-color: colors.$backgroundLightBlue;
   overflow-x: hidden;
-  padding-top: 70px;
+  padding-top: 100px;
+
+  & #logoutContainer {
+    position: absolute !important;
+    bottom: 0 !important;
+    margin-bottom: 20px !important;
+  }
 
   & a, & .dropdown-btn {
-
-
     padding: 6px 8px 6px 16px;
     text-decoration: none;
     font-size: 16px;
@@ -133,6 +137,8 @@ nav {
   }
 }
 
+
+
 .dropdown-container {
   display: none;
   background-color: colors.$backgroundDarkBlue;
@@ -140,6 +146,10 @@ nav {
   color: #fff !important;
   border-left: 3px solid colors.$backgroundLightBlue !important;
   border-right: 5px solid colors.$backgroundLightBlue !important;
+
+  & a {
+    font-size: 14px !important;
+  }
 }
 
 .fa-caret-down {

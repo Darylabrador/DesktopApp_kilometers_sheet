@@ -10447,7 +10447,12 @@ nav {
   left: 0;
   background-color: #3B5374;
   overflow-x: hidden;
-  padding-top: 70px;
+  padding-top: 100px;
+}
+.sidenav #logoutContainer {
+  position: absolute !important;
+  bottom: 0 !important;
+  margin-bottom: 20px !important;
 }
 .sidenav a, .sidenav .dropdown-btn {
   padding: 6px 8px 6px 16px;
@@ -10473,6 +10478,9 @@ nav {
   color: #fff !important;
   border-left: 3px solid #3B5374 !important;
   border-right: 5px solid #3B5374 !important;
+}
+.dropdown-container a {
+  font-size: 14px !important;
 }
 
 .fa-caret-down {
