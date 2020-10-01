@@ -10358,6 +10358,7 @@ a.text-dark:focus, a.text-dark:hover {
 
 body, html {
   height: 100%;
+  -webkit-user-select: none;
 }
 
 html {
@@ -10481,6 +10482,21 @@ nav {
 .main {
   margin-left: 160px;
   padding: 0px 10px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ddd;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
 }
 
 /*# sourceMappingURL=style.css.map */
