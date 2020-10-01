@@ -21,6 +21,7 @@ const PersonsWorkFors     = require('./models/personsworkfors');
 const generalRoutes       = require('./routes/generalRoutes');
 const authRoutes          = require('./routes/authRoutes');
 const horsepowersRoutes   = require('./routes/horsepowersRoutes');
+const entitiesRoutes      = require('./routes/entitiesRoutes');
 
 /* variable initialisation's */
 const router = {
@@ -142,6 +143,7 @@ function loadRoutes(callback) {
   expressApp.use("/", generalRoutes);
   expressApp.use("/", authRoutes);
   expressApp.use("/horsepowers", horsepowersRoutes);
+  expressApp.use("/entities", entitiesRoutes);
   
   if (typeof callback != 'undefined') {
     callback();

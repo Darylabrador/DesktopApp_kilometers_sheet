@@ -7,10 +7,43 @@
 
     <% include ../includes/sidenav %>
 
-    <div class="main">
-        ...
-    </div>
+    <div class="main pt-5">
+        <div class="pt-5">
 
+            <form action="/entities/update" method="POST" class="card bg-white mt-3 w-75 mx-auto">
+
+                <input type="hidden" name="entitiesId" value="<%=entitiesInfo.id%>">
+
+                <h5 class="w-100 mt-4 mb-3 font-weight-bold text-center"> Ajout d’une entité </h5>
+
+                <div class="p-4">
+                    <div class="mb-4 mb-2 mr-sm-2">
+                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Nom de l'entité</label>
+                        <input type="text" class="form-control inputBorder" name="name" value="<%=entitiesInfo.name%>">
+                    </div>
+
+                    <div class="mb-2 mb-2 mr-sm-2">
+                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Type</label>
+                        <select class="form-control inputBorder inputSelect" name="type">
+                            <option value="">Choix du type</option>
+                            <% if(entitiesInfo.type == 'entreprise'){ %>
+                                <option selected value="entreprise">Entreprise</option>
+                                <option value="association">Association</option>
+                            <% } else { %>
+                                <option value="entreprise">Entreprise</option>
+                                <option selected value="association">Association</option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer p-0 d-flex">
+                    <a href="/entities" class="btn btn-form-color w-50 leftBorder py-2">Annuler</a>
+                    <div class="btnDivider"></div>
+                    <button type="submit" class="btn btn-form-color w-50 rightBorder py-2">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

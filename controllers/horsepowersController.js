@@ -171,8 +171,13 @@ exports.postUpdateHorsepowers = async (req, res, next) => {
  * @throws Will throw an error if one error occursed
  */
 exports.postDeleteHorsepowers = async (req, res, next) => {
+    const { horsepowersId } = req.body;
     try {
         const horsepowerRow = await Horsepowers.findByPk(horsepowersId);
+        if (!horsepowerRow){
+            req.flash('error', 'Element introuvable !');
+            return res.redirect('/horsepowers');
+        }
         await horsepowerRow.destroy();
         req.flash('success', 'Suppression effectuer !');
         return res.redirect('/horsepowers');

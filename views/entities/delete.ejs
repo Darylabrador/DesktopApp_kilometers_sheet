@@ -8,7 +8,28 @@
     <% include ../includes/sidenav %>
 
     <div class="main">
-        ...
+        <div class="pt-5">
+            <form action="/entities/delete" method="POST" class="card bg-white mt-5 w-75 mx-auto">
+
+                <input type="hidden" name="entitiesId" value="<%=entitiesInfo.id%>">
+
+                <h5 class="w-100 mt-4 mb-5 font-weight-bold text-center"> Voulez-vous vraiment supprimer cette ligne
+                </h5>
+
+                <div class="pl-5">
+                    <ul>
+                        <li>Nom de l'entité : <%= entitiesInfo.name %></li>
+                        <li>Type : <%= entitiesInfo.type %></li>
+                    </ul>
+                </div>
+
+                <div class="card-footer p-0 d-flex">
+                    <a href="/entities" class="btn btn-form-color w-50 leftBorder py-2">Annuler</a>
+                    <div class="btnDivider"></div>
+                    <button type="submit" class="btn btn-form-color w-50 rightBorder py-2">Supprimer</button>
+                </div>
+            </form>
+        </div>
     </div>
 
 </body>
