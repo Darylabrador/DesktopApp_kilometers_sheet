@@ -48,6 +48,18 @@ nav {
   }
 }
 
+
+.close{
+  outline: none !important;
+  border: none !important;
+  cursor: default !important;
+
+   &:focus,&:active {
+    outline: none !important;
+    box-shadow: none;
+  }
+}
+
 .bg-lightblue-color {
   background-color: colors.$backgroundLightBlue;
 }

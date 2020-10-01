@@ -10392,6 +10392,16 @@ nav {
   box-shadow: none;
 }
 
+.close {
+  outline: none !important;
+  border: none !important;
+  cursor: default !important;
+}
+.close:focus, .close:active {
+  outline: none !important;
+  box-shadow: none;
+}
+
 .bg-lightblue-color {
   background-color: #3B5374;
 }

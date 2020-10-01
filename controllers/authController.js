@@ -37,6 +37,10 @@ exports.postLogin = async (req, res, next) => {
                 res.redirect('/dashboard');
             });
         };
+
+        req.flash('error', 'Identifiant ou mot de passe invalide');
+        return res.redirect('/');
+        
     } catch (error) {
         console.log(error)
         req.flash('error', 'Une erreur est survenue');
