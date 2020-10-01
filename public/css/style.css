@@ -10437,6 +10437,7 @@ nav {
   box-shadow: none;
 }
 
+/* --------- CUSTOM SIDENAV --------- */
 .sidenav {
   height: 100%;
   width: 200px;
@@ -10484,19 +10485,20 @@ nav {
   padding: 0px 10px;
 }
 
+/* --------- CUSTOM SCROLLBAR --------- */
 /* width */
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 3px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #ddd;
+  background: #3B5374;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #002252;
 }
 
 /*# sourceMappingURL=style.css.map */
