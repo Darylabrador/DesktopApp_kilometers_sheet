@@ -10411,6 +10411,10 @@ nav {
   box-shadow: none;
 }
 
+.btn-form-color {
+  background-color: #3B5374;
+}
+
 .bg-lightblue-color {
   background-color: #3B5374;
 }
@@ -10440,6 +10444,48 @@ nav {
 }
 .btnLogin:hover {
   background-color: #283E59 !important;
+}
+
+.form-control:focus {
+  border-style: none none inset none !important;
+  box-shadow: none !important;
+}
+
+.inputBorder {
+  border-style: none none inset none !important;
+  background: white !important;
+  border-radius: 0;
+  border-color: #000;
+  padding-bottom: 0px !important;
+}
+
+.leftBorder {
+  border-radius: 0px 0px 0px 5px !important;
+  font-weight: bold;
+  border: none !important;
+  background: rgba(0, 34, 82, 0.5);
+  color: #fff !important;
+  transition: all 400 ease-in;
+}
+.leftBorder:hover {
+  background: rgba(0, 34, 82, 0.7);
+}
+
+.rightBorder {
+  border-radius: 0px 0px 5px 0px !important;
+  font-weight: bold;
+  border: none !important;
+  background: rgba(0, 34, 82, 0.5);
+  color: #fff !important;
+  transition: all 400 ease-in;
+}
+.rightBorder:hover {
+  background: rgba(0, 34, 82, 0.7);
+}
+
+.btnDivider {
+  width: 3px;
+  background: white;
 }
 
 #loginForms {

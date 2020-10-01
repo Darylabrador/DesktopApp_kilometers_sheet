@@ -7,10 +7,44 @@
 
     <% include ../includes/sidenav %>
 
-    <div class="main">
-        ...
-    </div>
+    <div class="main pt-5">
+        <div class="pt-2">
+            <form action="/horsepowers/update" method="POST" class="card bg-white mt-3 w-75 mx-auto">
 
+                <input type="hidden" name="horsepowersId" value="<%=horsepowersInfo.id%>">
+
+                <h5 class="w-100 mt-4 mb-3 font-weight-bold text-center"> Modification <br> d'une ligne de barème de compensation </h5>
+
+                <div class="p-4">
+                    <div class="mb-4 mb-2 mr-sm-2">
+                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Chevaux fiscaux</label>
+                        <input type="text" class="form-control inputBorder" name="label" value="<%=horsepowersInfo.label%>">
+                    </div>
+
+                    <div class="mb-4 mb-2 mr-sm-2">
+                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Jusqu'à 5 000 km</label>
+                        <input type="number" step="0.001" min="0" class="form-control inputBorder" name="case1" value="<%=horsepowersInfo.case1%>">
+                    </div>
+
+                    <div class="mb-4 mb-2 mr-sm-2">
+                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">De 5 001 km à 20 000 km</label>
+                        <input type="text" class="form-control inputBorder" name="case2" value="<%=horsepowersInfo.case2%>">
+                    </div>
+
+                    <div class="mb-2 mb-2 mr-sm-2">
+                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Au-delà de 20 000 km</label>
+                        <input type="number" step="0.001" min="0" class="form-control inputBorder" name="case3" value="<%=horsepowersInfo.case3%>">
+                    </div>
+
+                </div>
+                <div class="card-footer p-0 d-flex">
+                    <a href="/horsepowers" class="btn btn-form-color w-50 leftBorder py-2">Annuler</a>
+                    <div class="btnDivider"></div>
+                    <button type="submit" class="btn btn-form-color w-50 rightBorder py-2">Modifier</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

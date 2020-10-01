@@ -7,10 +7,45 @@
 
     <% include ../includes/sidenav %>
 
-    <div class="main">
-        ...
-    </div>
+    <div class="main pt-5">
+        <div class="pt-2">
 
+            <% include ../includes/messageFlash %>
+
+            <form action="/horsepowers/create" method="POST" class="card bg-white mt-3 w-75 mx-auto">
+
+                <h5 class="w-100 mt-4 mb-3 font-weight-bold text-center"> Ajout d'une ligne <br> de barème de compensation </h5>
+
+                <div class="p-4">
+                    <div class="mb-4 mb-2 mr-sm-2">
+                        <label class="mb-0 font-weight-bold" style="margin-left: 13px;">Chevaux fiscaux</label>
+                        <input type="text" class="form-control inputBorder" name="label" placeholder="Ex: 3 CV et moins">
+                    </div>
+            
+                    <div class="mb-4 mb-2 mr-sm-2">
+                        <label class="mb-0 font-weight-bold" style="margin-left: 13px;">Jusqu'à 5 000 km</label>
+                        <input type="number" step="0.001" min="0" class="form-control inputBorder" name="case1" placeholder="Ex: 0,410">
+                    </div>
+
+                    <div class="mb-4 mb-2 mr-sm-2">
+                        <label class="mb-0 font-weight-bold" style="margin-left: 13px;">De 5 001 km à 20 000 km</label>
+                        <input type="text" class="form-control inputBorder" name="case2" placeholder="Ex: 0,245 + 824">
+                    </div>
+                    
+                    <div class="mb-2 mb-2 mr-sm-2">
+                        <label class="mb-0 font-weight-bold" style="margin-left: 13px;">Au-delà de 20 000 km</label>
+                        <input type="number" step="0.001" min="0" class="form-control inputBorder" name="case3" placeholder="Ex: 0,285">
+                    </div>
+
+                </div>
+                <div class="card-footer p-0 d-flex">
+                    <a href="/horsepowers" class="btn btn-form-color w-50 leftBorder py-2">Annuler</a>
+                    <div class="btnDivider"></div>
+                    <button type="submit" class="btn btn-form-color w-50 rightBorder py-2">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

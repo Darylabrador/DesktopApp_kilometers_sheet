@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator');
+
 // Models
 const Horsepowers = require('../models/horsepowers');
 
@@ -49,9 +51,9 @@ exports.getCreateHorsepowers = (req, res, next) => {
  */
 exports.getUpdateHorsepowers = async (req, res, next) => {
     const id = req.params.id;
-
+    console.log(id)
     try {
-        const horsepowersInfo = await Horsepowers.findByPk({where: {id}});
+        const horsepowersInfo = await Horsepowers.findByPk(id);
         if (!horsepowersInfo){
             req.flash('error', 'Element introuvable');
             return res.redirect('/horsepowers');
@@ -79,7 +81,7 @@ exports.getDeleteHorsepowers = async (req, res, next) => {
     const id = req.params.id;
 
     try {
-        const horsepowersInfo = await Horsepowers.findByPk({ where: { id } });
+        const horsepowersInfo = await Horsepowers.findByPk(id);
 
         if (!horsepowersInfo) {
             req.flash('error', 'Element introuvable');
@@ -108,7 +110,23 @@ exports.getDeleteHorsepowers = async (req, res, next) => {
  * @throws Will throw an error if one error occursed
  */
 exports.postCreateHorsepowers = async (req, res, next) => {
+    const { label, case1, case2, case3 } = req.body;
+    const errors = validationResult(req);
 
+    if (!errors.isEmpty()) {
+        req.flash('error', errors.array()[0].msg);
+        return res.redirect('/horsepowers/create');
+    }
+
+    try {
+        const newHorspowerRow = new Horsepowers({ label, case1, case2, case3 });
+        await newHorspowerRow.save();
+        req.flash('success', 'Création effectuer !');
+        return res.redirect('/horsepowers');
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/horsepowers');
+    }
 }
 
 
@@ -120,8 +138,29 @@ exports.postCreateHorsepowers = async (req, res, next) => {
  * @throws Will throw an error if one error occursed
  */
 exports.postUpdateHorsepowers = async (req, res, next) => {
+    const { horsepowersId, label, case1, case2, case3 } = req.body;
 
+    try {
+        const horsepowerRow = await Horsepowers.findByPk(horsepowersId);
+        if (!horsepowerRow){
+            req.flash('error', 'Element introuvable');
+            return res.redirect('/horsepowers');
+        }
+
+        horsepowerRow.label = label;
+        horsepowerRow.case1 = case1;
+        horsepowerRow.case2 = case2;
+        horsepowerRow.case3 = case3;
+        await horsepowerRow.save();
+
+        req.flash('success', 'Mise à jour effectuer !');
+        return res.redirect('/horsepowers');
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/horsepowers');
+    }
 }
+
 
 
 /**
@@ -132,5 +171,13 @@ exports.postUpdateHorsepowers = async (req, res, next) => {
  * @throws Will throw an error if one error occursed
  */
 exports.postDeleteHorsepowers = async (req, res, next) => {
-
+    try {
+        const horsepowerRow = await Horsepowers.findByPk(horsepowersId);
+        await horsepowerRow.destroy();
+        req.flash('success', 'Suppression effectuer !');
+        return res.redirect('/horsepowers');
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/horsepowers');
+    }
 }
