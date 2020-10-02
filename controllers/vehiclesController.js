@@ -4,7 +4,7 @@ const { validationResult } = require('express-validator');
 const Vehicles       = require('../models/vehicles');
 const Horsepowers    = require('../models/horsepowers');
 const Persons        = require('../models/persons');
-const Peronsvehicles = require('../models/personsVehicles');
+const PersonsVehicles = require('../models/personsVehicles');
 
 /* --------------- ALL GET PAGE ABOUT VEHICLES --------------- */
 
@@ -214,6 +214,7 @@ exports.postDeleteVehicles = async (req, res, next) => {
 
 /* --------------- ALL ASSOCIATIONS PAGE ABOUT VEHICLES --------------- */
 
+
 /**
  * Get associate liste for vehicles
  *
@@ -223,9 +224,14 @@ exports.postDeleteVehicles = async (req, res, next) => {
  */
 exports.getAssociateListVehicles = async (req, res, next) => {
     try {
+        const associateInfo = await PersonsVehicles.findAll({
+            include: [
+                Persons, Vehicles
+            ]
+        });
         res.render('vehicles/associateListe', {
             backgroundColor: "bg-lightblue-color",
-            
+            associateInfo
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
@@ -245,7 +251,7 @@ exports.getAssociateCreateVehicles = async (req, res, next) => {
     try {
         const personsInfo = await Persons.findAll({ where: { role: 'guest' } });
         const vehiclesInfo = await Vehicles.findAll({ include: Horsepowers });
-        res.render('vehiclesvehicles/associateCreate', {
+        res.render('vehicles/associateCreate', {
             backgroundColor: "bg-lightblue-color",
             personsInfo, vehiclesInfo
         });
@@ -253,28 +259,6 @@ exports.getAssociateCreateVehicles = async (req, res, next) => {
         req.flash('error', 'Une erreur est survenue');
         return res.redirect('/vehicles/associate/liste');
     }
-}
-
-
-/**
- * Get update associate for vehicles
- *
- * Render update associate vehicles
- * @function getAssociateUpdateVehicles
- * @returns {VIEW} update associate vehicles view
- */
-exports.getAssociateUpdateVehicles = async (req, res, next) => {
-    const id = req.params.id;
-
-    try {
-        res.render('vehicles/associateUpdate', {
-            backgroundColor: "bg-lightblue-color",
-        });
-    } catch (error) {
-        req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/vehicles/associate/liste');
-    }
-
 }
 
 /**
@@ -288,8 +272,21 @@ exports.getAssociateDeleteVehicles = async (req, res, next) => {
     const id = req.params.id;
 
     try {
+        const associateInfo = await PersonsVehicles.findOne({
+            where: {id},
+            include: [
+                Persons, Vehicles
+            ]
+        });
+
+        if (!associateInfo){
+            req.flash('error', 'Element introuvable');
+            return res.redirect('/vehicles/associate/liste');
+        }
+
         res.render('vehicles/associateDelete', {
             backgroundColor: "bg-lightblue-color",
+            associateInfo
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
@@ -305,7 +302,7 @@ exports.getAssociateDeleteVehicles = async (req, res, next) => {
  * @throws Will throw an error if one error occursed
  */
 exports.postCreateAssociateVehicles = async (req, res, next) => {
-    const { } = req.body;
+    const { individuId, vehicleId} = req.body;
 
     const errors = validationResult(req);
 
@@ -315,32 +312,44 @@ exports.postCreateAssociateVehicles = async (req, res, next) => {
     }
 
     try {
+        const personExist   = await Persons.findByPk(individuId);
+        const vehicleExist  = await Vehicles.findByPk(vehicleId);
+
+        if (!personExist) {
+            req.flash('error', 'Individu inexistant');
+            return res.redirect('/vehicles/associate/create');
+        }
+
+        if (!vehicleExist) {
+            req.flash('error', 'Vehicule inexistant');
+            return res.redirect('/vehicles/associate/create');
+        }
+
+        const associateExist = await PersonsVehicles.findOne({
+            where: {
+                personId: individuId,
+                vehicleId: vehicleId
+            }
+        })
+
+        if (!associateExist) {
+            const newVehiclesAssociate = new PersonsVehicles({
+                personId: individuId,
+                vehicleId: vehicleId
+            });
+            await newVehiclesAssociate.save();
+            req.flash('success', 'Relation ajoutée avec succès !');
+            return res.redirect('/vehicles/associate/liste');
+        }
+
+        req.flash('error', 'Association existe déjà');
+        return res.redirect('/vehicles/associate/liste');
 
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
         return res.redirect('/vehicles/associate/liste');
     }
 }
-
-
-/**
- * Handle post update associate vehicles
- *
- * @function postUpdateAssociateVehicles
- * @returns {VIEW} redirect to '/vehicles/associate/liste'
- * @throws Will throw an error if one error occursed
- */
-exports.postUpdateAssociateVehicles = async (req, res, next) => {
-    const { } = req.body;
-
-    try {
-
-    } catch (error) {
-        req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/vehicles');
-    }
-}
-
 
 
 /**
@@ -351,11 +360,17 @@ exports.postUpdateAssociateVehicles = async (req, res, next) => {
  * @throws Will throw an error if one error occursed
  */
 exports.postDeleteAssociateVehicles = async (req, res, next) => {
-    const { } = req.body;
+    const { associateId } = req.body;
     try {
-
+        const associateDelete = await PersonsVehicles.findByPk(associateId);
+        if (!associateDelete) {
+            req.flash('error', 'Element introuvable');
+            return res.redirect('/vehicles/associate/liste');
+        }
+        await associateDelete.destroy();
+        req.flash('success', 'Suppression effectuer');
+        return res.redirect('/vehicles/associate/liste');
     } catch (error) {
-        console.log(error)
         req.flash('error', 'Une erreur est survenue');
         return res.redirect('/vehicles');
     }

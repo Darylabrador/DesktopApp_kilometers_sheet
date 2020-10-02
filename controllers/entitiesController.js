@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 // Models
 const Entities      = require('../models/entities');
 const Persons       = require('../models/persons');
+const Personsworkfors = require('../models/personsworkfors');
 const Peronsworkfor = require('../models/personsworkfors');
 
 /* --------------- ALL GET PAGE ABOUT V --------------- */
@@ -206,10 +207,17 @@ exports.postDeleteEntities = async (req, res, next) => {
  */
 exports.getAssociateListEntities = async (req, res, next) => {
     try {
+        const associateInfo = await Peronsworkfor.findAll({
+            include: [
+                Persons, Entities
+            ]
+        });
         res.render('entities/associateListe', {
             backgroundColor: "bg-lightblue-color", 
+            associateInfo
         });
     } catch (error) {
+        console.log(error)
         req.flash('error', 'Une erreur est survenue');
         return res.redirect('/entities');
     }
@@ -237,29 +245,6 @@ exports.getAssociateCreateEntities = async (req, res, next) => {
     }
 }
 
-
-/**
- * Get update associate for entities
- *
- * Render update associate entities
- * @function getAssociateUpdateEntities
- * @returns {VIEW} update associate entities view
- */
-exports.getAssociateUpdateEntities = async (req, res, next) => {
-    const id = req.params.id;
-
-    try {
-        res.render('entities/associateUpdate', {
-            backgroundColor: "bg-lightblue-color",
-            entitiesInfo
-        });
-    } catch (error) {
-        req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/entities/associate/liste');
-    }
-
-}
-
 /**
  * Get delete associate entities 
  *
@@ -271,8 +256,21 @@ exports.getAssociateDeleteEntities = async (req, res, next) => {
     const id = req.params.id;
 
     try {
+        const associateInfo = await Peronsworkfor.findOne({
+            where: { id },
+            include: [
+                Persons, Entities
+            ]
+        });
+
+        if (!associateInfo) {
+            req.flash('error', 'Element introuvable');
+            return res.redirect('/entities/associate/liste');
+        }
+
         res.render('entities/associateDelete', {
             backgroundColor: "bg-lightblue-color",
+            associateInfo
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
@@ -288,42 +286,52 @@ exports.getAssociateDeleteEntities = async (req, res, next) => {
  * @throws Will throw an error if one error occursed
  */
 exports.postCreateAssociateEntities = async (req, res, next) => {
-    const {  } = req.body;
-
+    const { individuId, entitiesId } = req.body;
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         req.flash('error', errors.array()[0].msg);
         return res.redirect('/entities/associate/create');
     }
-
     try {
+        const personExist   = await Persons.findByPk(individuId);
+        const entitiesExist = await Entities.findByPk(entitiesId);
+
+        if (!personExist){
+            req.flash('error', 'Individu inexistant');
+            return res.redirect('/entities/associate/create');
+        }
+
+        if (!entitiesExist) {
+            req.flash('error', 'Entité inexistant');
+            return res.redirect('/entities/associate/create');
+        }
+
+        const associateExist = await Personsworkfors.findOne({
+            where: {
+                personId: individuId,
+                entityId: entitiesId
+            }
+        })
+
+        if(!associateExist) {
+            const newWork = new Personsworkfors({
+                personId: individuId,
+                entityId: entitiesId
+            });
+            await newWork.save();
+            req.flash('success', 'Relation ajoutée avec succès !');
+            return res.redirect('/entities/associate/liste');
+        }
+
+        req.flash('error', 'Association existe déjà');
+        return res.redirect('/entities/associate/liste');
 
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
         return res.redirect('/entities/associate/liste');
     }
 }
-
-
-/**
- * Handle post update associate entities
- *
- * @function postUpdateAssociateEntities
- * @returns {VIEW} redirect to '/entities/associate/liste'
- * @throws Will throw an error if one error occursed
- */
-exports.postUpdateAssociateEntities = async (req, res, next) => {
-    const {  } = req.body;
-
-    try {
-
-    } catch (error) {
-        req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/entities');
-    }
-}
-
 
 
 /**
@@ -334,11 +342,17 @@ exports.postUpdateAssociateEntities = async (req, res, next) => {
  * @throws Will throw an error if one error occursed
  */
 exports.postDeleteAssociateEntities = async (req, res, next) => {
-    const {  } = req.body;
+    const { associateId } = req.body;
     try {
-
+        const associateDelete = await Personsworkfors.findByPk(associateId);
+        if(!associateDelete){
+            req.flash('error', 'Element introuvable');
+            return res.redirect('/entities/associate/liste');
+        }
+        await associateDelete.destroy();
+        req.flash('success', 'Suppression effectuer');
+        return res.redirect('/entities/associate/liste');
     } catch (error) {
-        console.log(error)
         req.flash('error', 'Une erreur est survenue');
         return res.redirect('/entities');
     }

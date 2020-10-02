@@ -1,0 +1,37 @@
+<% include ../includes/head %>
+
+</head>
+
+<body class="bg-darkblue-color">
+    <% include ../includes/windowButtons , {backgroundColor: backgroundColor} %>
+
+    <% include ../includes/sidenav %>
+
+    <div class="main">
+        <div class="pt-5">
+            <form action="/vehicles/associate/delete" method="POST" class="card bg-white mt-5 w-75 mx-auto">
+
+                <input type="hidden" name="associateId" value="<%=associateInfo.id%>">
+
+                <h5 class="w-100 mt-4 mb-5 font-weight-bold text-center"> Voulez-vous vraiment supprimer cette ligne
+                </h5>
+
+                <div class="pl-5">
+                    <ul>
+                        <li>Individu : <%= associateInfo.person.surname %> <%= associateInfo.person.name %></li>
+                        <li>Vehicule : <%= associateInfo.vehicle.mark %> <%= associateInfo.vehicle.model %> | <%= associateInfo.vehicle.registrationNumber %></li>
+                    </ul>
+                </div>
+
+                <div class="card-footer p-0 d-flex">
+                    <a href="/vehicles/associate/liste" class="btn btn-form-color w-50 leftBorder py-2">Annuler</a>
+                    <div class="btnDivider"></div>
+                    <button type="submit" class="btn btn-form-color w-50 rightBorder py-2">Supprimer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

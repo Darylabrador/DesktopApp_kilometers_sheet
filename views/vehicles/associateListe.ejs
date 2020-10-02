@@ -1,0 +1,68 @@
+<% include ../includes/head %>
+
+</head>
+
+<body class="bg-darkblue-color h-100">
+    <% include ../includes/windowButtons , {backgroundColor: backgroundColor} %>
+
+    <% include ../includes/sidenav %>
+
+    <div class="main pt-5">
+
+        <div class="bg-white py-3 px-1 mt-5">
+
+            <% include ../includes/messageFlash %>
+
+            <table id="associateTable" class="table table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col" style="font-size: 15px !important">Individu</th>
+                        <th scope="col" style="font-size: 15px !important">Vehicule</th>
+                        <th scope="col" style="font-size: 15px !important">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% associateInfo.forEach(info => { %>
+                    <tr>
+                        <th scope="row" style="font-size: 14px !important"><%= info.person.surname %> <%= info.person.name %></th>
+                        <td style="font-size: 14px !important"><%= info.vehicle.mark %> <%= info.vehicle.model %> | <%= info.vehicle.registrationNumber %></td>
+                        <td>
+                            <a href="/vehicles/associate/delete/<%= info.id %>"
+                                class=" bg-transparent border-0 mx-0 px-0">
+                                <span class="iconify iconify__red mx-1" data-inline="false" data-icon="fa-solid:trash"
+                                    style="color: red;"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+
+        $('#associateTable').DataTable({
+            "language": {
+                "sSearch": "Rechercher",
+                "infoEmpty": "Aucune donnée disponible",
+                "zeroRecords": "Aucun élément n'a été trouvé",
+                "paginate": {
+                    "first": "Premier",
+                    "last": "Dernier",
+                    "next": "Suivant",
+                    "previous": "Précédent"
+                },
+            },
+            responsive: true,
+            pageLength: 5,
+        });
+
+        $("#associateTable_filter").parent().addClass(["d-flex", "justify-content-start", "ml-3"]);
+        $("#associateTable_filter").addClass(["d-flex", "justify-content-start"]);
+        $("#associateTable_info").parent().remove();
+        $("#associateTable_length").parent().remove();
+    </script>
+</body>
+
+</html>

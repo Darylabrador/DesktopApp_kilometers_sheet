@@ -49,10 +49,14 @@ function start(callback) {
         // 1 person can work for many entities
         Persons.belongsToMany(Entities, { through: PersonsWorkFors });
         Entities.belongsToMany(Persons, { through: PersonsWorkFors });
+        PersonsWorkFors.belongsTo(Persons);
+        PersonsWorkFors.belongsTo(Entities);
 
         // 1 person can have many vehicles
         Persons.belongsToMany(Vehicles, {through: PersonsVehicles});
         Vehicles.belongsToMany(Persons, {through: PersonsVehicles});
+        PersonsVehicles.belongsTo(Persons);
+        PersonsVehicles.belongsTo(Vehicles);
 
         // 1 horsepowers can be attribute to many vehicule
         Horsepowers.hasMany(Vehicles);
@@ -64,13 +68,18 @@ function start(callback) {
         Persons.hasMany(KilometerSheets);
         Entities.hasMany(KilometerSheets);
         Vehicles.hasMany(KilometerSheets);
+        KilometerSheets.belongsTo(Persons);
+        KilometerSheets.belongsTo(Entities);
+        KilometerSheets.belongsTo(Vehicles);
 
         // 1 kilometerSheet can have many kilometersheetrows
         KilometerSheets.hasMany(KilometerSheetRows);
+        KilometerSheetRows.belongsTo(KilometerSheets);
 
         // 1 kilometersheetrows can have many moveReason
         MoveReasons.hasMany(KilometerSheetRows);
-
+        KilometerSheetRows.belongsTo(MoveReasons);
+        
         // database connection and sync
         database
           .sync()

@@ -19,8 +19,6 @@ router.get('/associate/liste', isAuth, vehiclesController.getAssociateListVehicl
 
 router.get('/associate/create', isAuth, vehiclesController.getAssociateCreateVehicles);
 
-router.get('/associate/update/:id', isAuth, vehiclesController.getAssociateUpdateVehicles);
-
 router.get('/associate/delete/:id', isAuth, vehiclesController.getAssociateDeleteVehicles);
 
 router.post(
@@ -88,20 +86,6 @@ router.post(
             .isEmpty()
     ],
     vehiclesController.postCreateAssociateVehicles
-);
-
-router.post(
-    '/associate/update',
-    isAuth,
-    [
-        body('individuId', 'Veuillez renseigner l\'individu')
-            .not()
-            .isEmpty(),
-        body('vehicleId', 'Veuillez saisir le véhicule')
-            .not()
-            .isEmpty()
-    ],
-    vehiclesController.postUpdateAssociateVehicles
 );
 
 router.post('/associate/delete', isAuth, vehiclesController.postDeleteAssociateVehicles);
