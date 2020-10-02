@@ -8,28 +8,30 @@
     <% include ../includes/sidenav %>
 
     <div class="main pt-5">
-        <div class="pt-5">
-            <form action="/entities/create" method="POST" class="card bg-white mt-5 w-75 mx-auto">
+        <div class="pt-4 mt-4">
 
-                <h5 class="w-100 mt-4 mb-3 font-weight-bold text-center"> Ajout d’une entité </h5>
+            <% include ../includes/messageFlash %>
+
+            <form action="/persons/create" method="POST" class="card bg-white mt-3 w-75 mx-auto">
+
+                <h5 class="w-100 mt-4 mb-3 font-weight-bold text-center"> Ajout d’un individu </h5>
 
                 <div class="p-4">
                     <div class="mb-4 mb-2 mr-sm-2">
-                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Nom de l'entité</label>
-                        <input type="text" class="form-control inputBorder" name="name" placeholder="Saisir le nom de l’entité">
+                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Nom de famille</label>
+                        <input type="text" class="form-control inputBorder" name="surname" placeholder="Ex: Doe">
                     </div>
-            
+                    <div class="mb-4 mb-2 mr-sm-2">
+                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Prénom</label>
+                        <input type="text" class="form-control inputBorder" name="name" placeholder="ex: John">
+                    </div>
                     <div class="mb-2 mb-2 mr-sm-2">
-                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Type</label>
-                        <select class="form-control inputBorder inputSelect" name="type">
-                            <option value="">Choix du type</option>
-                            <option value="entreprise">Entreprise</option>
-                            <option value="association">Association</option>
-                        </select>
+                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Fonction</label>
+                        <input type="text" class="form-control inputBorder" name="functionName" placeholder="ex: PDG">
                     </div>
                 </div>
                 <div class="card-footer p-0 d-flex">
-                    <a href="/entities" class="btn btn-form-color w-50 leftBorder py-2">Annuler</a>
+                    <a href="/persons" class="btn btn-form-color w-50 leftBorder py-2">Annuler</a>
                     <div class="btnDivider"></div>
                     <button type="submit" class="btn btn-form-color w-50 rightBorder py-2">Ajouter</button>
                 </div>

@@ -48,41 +48,6 @@ exports.postLogin = async (req, res, next) => {
     }
 }
 
-
-
-/**
- * Handle post signup 
- *
- * @function postSignup
- * @returns {VIEW} redirect to '/persons'
- * @throws Will throw an error if one error occursed
- */
-exports.postSignup = async (req, res, next) => {
-    const { login, password, name, surname, role } = req.body;
-
-    try {
-        if (role == 'administrator' || role == 'guest') {
-            const hashedPwd = await bcrypt.hash(password, 12);
-
-            const newPerson = new Persons({
-                login,
-                password: hashedPwd,
-                name,
-                surname,
-                role
-            });
-
-            await newPerson.save();
-            return console.log('create')
-        }
-        return console.log('role incorrecte')
-        
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-
 /**
  * Handle logout
  *
