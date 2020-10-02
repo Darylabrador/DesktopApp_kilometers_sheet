@@ -21,10 +21,6 @@ const Vehicles = sequelize.define('vehicles', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    horsepower: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
     year: {
         type: DataTypes.INTEGER,
         allowNull: false

@@ -24,6 +24,7 @@ const horsepowersRoutes   = require('./routes/horsepowersRoutes');
 const entitiesRoutes      = require('./routes/entitiesRoutes');
 const personsRoutes       = require('./routes/personsRoutes');
 const movereasonsRoutes   = require('./routes/movereasonsRoutes');
+const vehiclesRoutes      = require('./routes/vehiclesRoutes');
 
 /* variable initialisation's */
 const router = {
@@ -55,7 +56,8 @@ function start(callback) {
 
         // 1 horsepowers can be attribute to many vehicule
         Horsepowers.hasMany(Vehicles);
-
+        Vehicles.belongsTo(Horsepowers);
+        
         // 1 person can have many kilometerSheet
         // 1 Entity can have many kilometerSheet
         // 1 vehicles can have many kilometerSheet
@@ -148,7 +150,8 @@ function loadRoutes(callback) {
   expressApp.use("/entities", entitiesRoutes);
   expressApp.use('/persons', personsRoutes);
   expressApp.use('/movereasons', movereasonsRoutes);
-
+  expressApp.use('/vehicles', vehiclesRoutes);
+  
   if (typeof callback != 'undefined') {
     callback();
   }
