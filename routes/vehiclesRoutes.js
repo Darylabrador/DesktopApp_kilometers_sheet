@@ -15,6 +15,13 @@ router.get('/update/:id', isAuth, vehiclesController.getUpdateVehicles);
 
 router.get('/delete/:id', isAuth, vehiclesController.getDeleteVehicles);
 
+router.get('/associate/liste', isAuth, vehiclesController.getAssociateListVehicles);
+
+router.get('/associate/create', isAuth, vehiclesController.getAssociateCreateVehicles);
+
+router.get('/associate/update/:id', isAuth, vehiclesController.getAssociateUpdateVehicles);
+
+router.get('/associate/delete/:id', isAuth, vehiclesController.getAssociateDeleteVehicles);
 
 router.post(
     '/create',
@@ -68,5 +75,36 @@ router.post(
 );
 
 router.post('/delete', isAuth, vehiclesController.postDeleteVehicles);
+
+router.post(
+    '/associate/create',
+    isAuth,
+    [
+        body('inviduId', 'Veuillez renseigner l\'individu')
+            .not()
+            .isEmpty(),
+        body('vehicleId', 'Veuillez saisir le véhicule')
+            .not()
+            .isEmpty()
+    ],
+    vehiclesController.postCreateAssociateVehicles
+);
+
+router.post(
+    '/associate/update',
+    isAuth,
+    [
+        body('inviduId', 'Veuillez renseigner l\'individu')
+            .not()
+            .isEmpty(),
+        body('vehicleId', 'Veuillez saisir le véhicule')
+            .not()
+            .isEmpty()
+    ],
+    vehiclesController.postUpdateAssociateVehicles
+);
+
+router.post('/associate/delete', isAuth, vehiclesController.postDeleteAssociateVehicles);
+
 
 module.exports = router;

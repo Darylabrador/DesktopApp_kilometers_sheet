@@ -1,8 +1,9 @@
 const { validationResult } = require('express-validator');
 
 // Models
-const Entities = require('../models/entities');
-
+const Entities      = require('../models/entities');
+const Persons       = require('../models/persons');
+const Peronsworkfor = require('../models/personsworkfors');
 
 /* --------------- ALL GET PAGE ABOUT V --------------- */
 
@@ -186,6 +187,149 @@ exports.postDeleteEntities = async (req, res, next) => {
         await entitiesRow.destroy();
         req.flash('success', 'Suppression effectuer !');
         return res.redirect('/entities');
+    } catch (error) {
+        console.log(error)
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/entities');
+    }
+}
+
+
+/* --------------- ALL ASSOCIATE PAGE ABOUT ENTITIES --------------- */
+
+/**
+ * Get associate liste for entities
+ *
+ * Render associate liste for entities
+ * @function getAssociateListEntities
+ * @returns {VIEW} associate liste entities view
+ */
+exports.getAssociateListEntities = async (req, res, next) => {
+    try {
+        res.render('entities/associateListe', {
+            backgroundColor: "bg-lightblue-color", 
+        });
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/entities');
+    }
+}
+
+
+/**
+ * Get create associate for entities
+ *
+ * Render create associate for entities
+ * @function getAssociateCreateEntities
+ * @returns {VIEW} create associate entities view
+ */
+exports.getAssociateCreateEntities = (req, res, next) => {
+    res.render('entities/associateCreate', {
+        backgroundColor: "bg-lightblue-color"
+    });
+}
+
+
+/**
+ * Get update associate for entities
+ *
+ * Render update associate entities
+ * @function getAssociateUpdateEntities
+ * @returns {VIEW} update associate entities view
+ */
+exports.getAssociateUpdateEntities = async (req, res, next) => {
+    const id = req.params.id;
+
+    try {
+        res.render('entities/associateUpdate', {
+            backgroundColor: "bg-lightblue-color",
+            entitiesInfo
+        });
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/entities/associate/liste');
+    }
+
+}
+
+/**
+ * Get delete associate entities 
+ *
+ * Render delete associate entities
+ * @function getAssociateDeleteEntities
+ * @returns {VIEW} delete associate entities view
+ */
+exports.getAssociateDeleteEntities = async (req, res, next) => {
+    const id = req.params.id;
+
+    try {
+        res.render('entities/associateDelete', {
+            backgroundColor: "bg-lightblue-color",
+            entitiesInfo
+        });
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/entities/associate/liste');
+    }
+}
+
+/**
+ * Handle post create entities associate
+ *
+ * @function postCreateAssociateEntities
+ * @returns {VIEW} redirect to '/entities/associate/liste'
+ * @throws Will throw an error if one error occursed
+ */
+exports.postCreateAssociateEntities = async (req, res, next) => {
+    const {  } = req.body;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        req.flash('error', errors.array()[0].msg);
+        return res.redirect('/entities/associate/create');
+    }
+
+    try {
+
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/entities/associate/liste');
+    }
+}
+
+
+/**
+ * Handle post update associate entities
+ *
+ * @function postUpdateAssociateEntities
+ * @returns {VIEW} redirect to '/entities/associate/liste'
+ * @throws Will throw an error if one error occursed
+ */
+exports.postUpdateAssociateEntities = async (req, res, next) => {
+    const {  } = req.body;
+
+    try {
+
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/entities');
+    }
+}
+
+
+
+/**
+ * Handle post delete associate entities
+ *
+ * @function postDeleteAssociateEntities
+ * @returns {VIEW} redirect to '/entities/associate/liste'
+ * @throws Will throw an error if one error occursed
+ */
+exports.postDeleteAssociateEntities = async (req, res, next) => {
+    const {  } = req.body;
+    try {
+
     } catch (error) {
         console.log(error)
         req.flash('error', 'Une erreur est survenue');
