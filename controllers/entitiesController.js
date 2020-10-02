@@ -223,10 +223,18 @@ exports.getAssociateListEntities = async (req, res, next) => {
  * @function getAssociateCreateEntities
  * @returns {VIEW} create associate entities view
  */
-exports.getAssociateCreateEntities = (req, res, next) => {
-    res.render('entities/associateCreate', {
-        backgroundColor: "bg-lightblue-color"
-    });
+exports.getAssociateCreateEntities = async (req, res, next) => {
+    try {
+        const personsInfo = await Persons.findAll({ where: { role: 'guest' } });
+        const entitiesInfo = await Entities.findAll();
+        res.render('entities/associateCreate', {
+            backgroundColor: "bg-lightblue-color",
+            personsInfo, entitiesInfo
+        });
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/entities/associate/liste');
+    }
 }
 
 
@@ -265,7 +273,6 @@ exports.getAssociateDeleteEntities = async (req, res, next) => {
     try {
         res.render('entities/associateDelete', {
             backgroundColor: "bg-lightblue-color",
-            entitiesInfo
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');

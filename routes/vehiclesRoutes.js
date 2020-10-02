@@ -80,7 +80,7 @@ router.post(
     '/associate/create',
     isAuth,
     [
-        body('inviduId', 'Veuillez renseigner l\'individu')
+        body('individuId', 'Veuillez renseigner l\'individu')
             .not()
             .isEmpty(),
         body('vehicleId', 'Veuillez saisir le véhicule')
@@ -94,7 +94,7 @@ router.post(
     '/associate/update',
     isAuth,
     [
-        body('inviduId', 'Veuillez renseigner l\'individu')
+        body('individuId', 'Veuillez renseigner l\'individu')
             .not()
             .isEmpty(),
         body('vehicleId', 'Veuillez saisir le véhicule')

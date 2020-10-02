@@ -53,7 +53,7 @@ router.post(
     '/associate/create',
     isAuth,
     [
-        body('inviduId', 'Veuillez renseigner l\'individu')
+        body('individuId', 'Veuillez renseigner l\'individu')
             .not()
             .isEmpty(),
         body('entitiesId', 'Veuillez saisir le nom de l\'entité')
@@ -67,7 +67,7 @@ router.post(
     '/associate/update', 
     isAuth,
     [
-        body('inviduId', 'Veuillez renseigner l\'individu')
+        body('individuId', 'Veuillez renseigner l\'individu')
             .not()
             .isEmpty(),
         body('entitiesId', 'Veuillez saisir le nom de l\'entité')

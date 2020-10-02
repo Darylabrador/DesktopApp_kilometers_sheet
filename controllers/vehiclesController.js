@@ -225,6 +225,7 @@ exports.getAssociateListVehicles = async (req, res, next) => {
     try {
         res.render('vehicles/associateListe', {
             backgroundColor: "bg-lightblue-color",
+            
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
@@ -240,10 +241,18 @@ exports.getAssociateListVehicles = async (req, res, next) => {
  * @function getAssociateCreateVehicles
  * @returns {VIEW} create associate vehicles view
  */
-exports.getAssociateCreateVehicles = (req, res, next) => {
-    res.render('vehiclesvehicles/associateCreate', {
-        backgroundColor: "bg-lightblue-color"
-    });
+exports.getAssociateCreateVehicles = async (req, res, next) => {
+    try {
+        const personsInfo = await Persons.findAll({ where: { role: 'guest' } });
+        const vehiclesInfo = await Vehicles.findAll({ include: Horsepowers });
+        res.render('vehiclesvehicles/associateCreate', {
+            backgroundColor: "bg-lightblue-color",
+            personsInfo, vehiclesInfo
+        });
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/vehicles/associate/liste');
+    }
 }
 
 
