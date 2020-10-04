@@ -2,36 +2,31 @@
 
 </head>
 
-<body class="bg-darkblue-color">
+<body class="bg-darkblue-color h-100">
     <% include ../includes/windowButtons , {backgroundColor: backgroundColor} %>
 
     <% include ../includes/sidenav %>
 
     <div class="main pt-5">
-        <div class="pt-4 mt-4">
+
+        <div class="bg-white py-3 px-1 mt-5">
 
             <% include ../includes/messageFlash %>
 
-            <form action="/movereasons/update" method="POST" class="card bg-white mt-3 w-75 mx-auto">
+            <table id="kilometersTable" class="table table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col" style="font-size: 15px !important">Raison</th>
+                        <th scope="col" style="font-size: 15px !important">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <input type="hidden" name="movereasonsId" value="<%=movereasonsInfo.id%>">
-
-                <h5 class="w-100 mt-4 mb-3 font-weight-bold text-center"> Modificition d'un justificatif </h5>
-
-                <div class="p-4">
-                    <div class="mb-4 mb-2 mr-sm-2">
-                        <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Raison du déplacement</label>
-                        <input type="text" class="form-control inputBorder" name="label" value="<%=movereasonsInfo.label%>">
-                    </div>
-                </div>
-                <div class="card-footer p-0 d-flex">
-                    <a href="/movereasons" class="btn btn-form-color w-50 leftBorder py-2">Annuler</a>
-                    <div class="btnDivider"></div>
-                    <button type="submit" class="btn btn-form-color w-50 rightBorder py-2">Ajouter</button>
-                </div>
-            </form>
+                </tbody>
+            </table>
         </div>
     </div>
+
 </body>
 
 </html>

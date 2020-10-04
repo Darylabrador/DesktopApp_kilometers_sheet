@@ -8,8 +8,10 @@ const KilometerSheetRows  = require('../models/kilometersheetrows');
 const MoveReasons         = require('../models/movereasons');
 const PersonsVehicles     = require('../models/personsVehicles');
 const PersonsWorkFors     = require('../models/personsworkfors');
+const KilometerSheetsRows = require('../models/kilometersheetrows');
 
 
+/* --------------- ALL GET PAGE ABOUT KILOMETERS SHEETS  --------------- */
 
 
 /**
@@ -21,8 +23,13 @@ const PersonsWorkFors     = require('../models/personsworkfors');
  */
 exports.getIndexKilometerSheets = async (req, res, next) => {
     try {
+        const kilometerSheetInfo = await KilometerSheets.findAll({
+            where: { personId: req.userId },
+            include: [Persons, Vehicles, Entities]
+        });
         res.render('kilometersheets/index', {
             backgroundColor: "bg-lightblue-color",
+            kilometerSheetInfo
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
@@ -54,6 +61,113 @@ exports.getCreateKilometerSheets = async (req, res, next) => {
             backgroundColor: "bg-darkblue-color",
             personsVehiclesInfo, personsWorkForInfo
         });
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/kilometersheets');
+    }
+}
+
+
+/**
+ * Get delete kilometerSheet page
+ *
+ * Render delete kilometerSheet page
+ * @function getIndexKilometerSheets
+ * @returns {VIEW} delete kilometerSheet view
+ */
+exports.getDeleteKilometerSheets = async (req, res, next) => {
+    const id = req.params.id;
+
+    try {
+        const kilometerSheetInfo = await KilometerSheets.findOne({
+            where: { personId: req.userId, id },
+            include: [Persons, Vehicles, Entities]
+        });
+        res.render('kilometersheets/delete', {
+            backgroundColor: "bg-lightblue-color",
+            kilometerSheetInfo
+        });
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/kilometersheets');
+    }
+}
+
+
+/* --------------- ALL POST PAGE ABOUT KILOMETERS SHEETS --------------- */
+
+
+/**
+ * Handle post create kilometerSheet
+ *
+ * @function postCreateKilometerSheets
+ * @returns {VIEW} redirect to '/kilometersheets/:id'
+ * @throws Will throw an error if one error occursed
+ */
+exports.postCreateKilometerSheets = async (req, res, next) => {
+    const { entityId, vehicleId } = req.body;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        req.flash('error', errors.array()[0].msg);
+        return res.redirect('/kilometersheets/create');
+    }
+
+    try {
+        const entityExist  = await Entities.findByPk(entityId);
+        const vehicleExist = await Vehicles.findByPk(vehicleId);
+
+        if(!entityExist) {
+            req.flash('error', 'Entité inexistante');
+            return res.redirect(`/kilometersheets`); 
+        }
+
+        if (!vehicleExist) {
+            req.flash('error', 'Véhicule inexistante');
+            return res.redirect(`/kilometersheets`); 
+        }
+
+        const newSheet = new KilometerSheets({ 
+            personId: req.userId,
+            entityId, vehicleId
+        });
+
+        const newSheetSaved = await newSheet.save();
+        req.flash('success', 'Création effectuer !');
+        return res.redirect(`/kilometersheets/update/${newSheetSaved.id}`);
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect(`/kilometersheets`);
+    }
+}
+
+/**
+ * Handle post delete kilometerSheet info
+ *
+ * @function postDeleteKilometerSheets
+ * @returns {VIEW} delete kilometerSheet view
+ */
+exports.postDeleteKilometerSheets = async (req, res, next) => {
+    const { kilometersheetId } = req.body;
+
+    try {
+        const kilometerSheetInfo = await KilometerSheets.findOne({
+            where: { 
+                personId: req.userId, 
+                id: kilometersheetId
+            },
+        });
+
+        if (!kilometerSheetInfo){
+            req.flash('error', 'Fiche inexistante');
+            return res.redirect(`/kilometersheets`);
+        }
+
+        await KilometerSheetsRows.destroy({ where: { id: kilometersheetId } });
+        await kilometerSheetInfo.destroy();
+
+        req.flash('success', 'Suppression effectuer !');
+        return res.redirect(`/kilometersheets`);
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
         return res.redirect('/kilometersheets');

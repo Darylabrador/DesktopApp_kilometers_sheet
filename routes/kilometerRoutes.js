@@ -14,17 +14,22 @@ router.get('/update/:id', isAuth);
 
 router.get('/export/:id', isAuth);
 
-router.get('/delete/:id', isAuth);
-
+router.get('/delete/:id', isAuth, kilometersController.getDeleteKilometerSheets);
 
 router.post(
     '/create',
     isAuth,
     [
-        body('field', 'message')
+        body('entityId', 'Veuillez renseigner l\'entité')
             .not()
             .isEmpty(),
-    ]
+        body('vehicleId', 'Veuillez renseigner le véhicule')
+            .not()
+            .isEmpty(),
+    ],
+    kilometersController.postCreateKilometerSheets
 );
+
+router.post('/delete', isAuth, kilometersController.postDeleteKilometerSheets)
 
 module.exports = router;
