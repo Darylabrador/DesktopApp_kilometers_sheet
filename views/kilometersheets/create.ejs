@@ -21,6 +21,9 @@
                         <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Entité</label>
                         <select class="form-control inputBorder inputSelect" name="entityId">
                             <option value="">Choix de l'entité</option>
+                            <% personsWorkForInfo.forEach(info => { %>
+                            <option value="<%=info.entity.id%>"> <%= info.entity.name %> | <%= info.entity.type %> </option>
+                            <% }) %>
                         </select>
                     </div>
                     
@@ -28,6 +31,9 @@
                         <label class="mb-1 font-weight-bold" style="margin-left: 13px;">Véhicule</label>
                         <select class="form-control inputBorder inputSelect" name="vehicleId">
                             <option value="">Choix du véhicule</option>
+                            <% personsVehiclesInfo.forEach(info => { %>
+                            <option value="<%=info.vehicle.id%>"> <%= info.vehicle.mark %> | <%= info.vehicle.model %> | <%= info.vehicle.registrationNumber %> </option>
+                            <% }) %>
                         </select>
                     </div>
                 </div>
