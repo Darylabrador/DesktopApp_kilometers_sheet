@@ -57,6 +57,22 @@ nav {
       color: colors.$backgroundLoginBtn !important;
     }
   }
+
+  &.btnExport{
+    color:  rgb(242, 139, 139) !important;
+    transition: all 500 ease-in;
+    &:hover{   
+      color: red !important;
+    }
+  }
+
+  &.btnValidate{
+        color:  rgb(100, 196, 87) !important;
+    transition: all 500 ease-in;
+    &:hover{   
+      color: rgb(15, 102, 18) !important;
+    }
+  }
 }
 
 

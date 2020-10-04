@@ -10,9 +10,11 @@ router.get('/', isAuth, kilometersController.getIndexKilometerSheets);
 
 router.get('/create', isAuth, kilometersController.getCreateKilometerSheets);
 
-router.get('/update/:id', isAuth);
+router.get('/update/:id', isAuth, kilometersController.getUpdateKilometerSheets);
 
 router.get('/export/:id', isAuth);
+
+router.get('/reasonselect', isAuth, kilometersController.getMovereason);
 
 router.get('/delete/:id', isAuth, kilometersController.getDeleteKilometerSheets);
 

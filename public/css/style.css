@@ -10400,6 +10400,20 @@ nav {
   background-color: white !important;
   color: #002252 !important;
 }
+.btn.btnExport {
+  color: #f28b8b !important;
+  transition: all 500 ease-in;
+}
+.btn.btnExport:hover {
+  color: red !important;
+}
+.btn.btnValidate {
+  color: #64c457 !important;
+  transition: all 500 ease-in;
+}
+.btn.btnValidate:hover {
+  color: #0f6612 !important;
+}
 
 .close {
   outline: none !important;

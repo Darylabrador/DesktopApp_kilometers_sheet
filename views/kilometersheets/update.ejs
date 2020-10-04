@@ -9,24 +9,55 @@
 
     <div class="main pt-5">
 
-        <div class="bg-white py-3 px-1 mt-5">
+        <div class="w-100 d-flex justify-content-end mb-2">
+            <button id="newRow" class="btn btn-success" data-id="<%=kilometerSheetInfo.id%>"> Nouvelle ligne </button>
+        </div>
+        
 
-            <% include ../includes/messageFlash %>
+        <div class="bg-white px-1 mb-2">
+            <table class="table table-hover">
+                <tr>
+                    <th style="font-size: 15px !important">Entreprise</th>
+                    <th class="text-center" style="font-size: 15px !important">Nom </th>
+                    <th class="text-center" style="font-size: 15px !important">Type de véhicule</th>
+                    <th class="text-center" style="font-size: 15px !important">Année </th>
+                    <th class="text-center" style="font-size: 15px !important">Total KM parcourus </th>
+                    <th class="text-center" style="font-size: 15px !important">Montant Indemnité </th>
+                    <th class="text-center" style="font-size: 15px !important">Action </th>
+                </tr>
+                <tr>
+                    <td style="font-size: 14px !important"><%= kilometerSheetInfo.entity.name %></td>
+                    <td class="text-center" style="font-size: 14px !important"><%= kilometerSheetInfo.person.surname %> <%= kilometerSheetInfo.person.name %></td>
+                    <td class="text-center" style="font-size: 14px !important"><%= horsepowersInfo.horsepower.label %></td>
+                    <td class="text-center" style="font-size: 14px !important"><%= kilometerSheetInfo.vehicle.year %> </td>
+                    <td class="text-center" style="font-size: 14px !important" id="totalKm"> </td>
+                    <td class="text-center" style="font-size: 14px !important"><span id="compensation"> </span> €</td>
+                    <td class="text-center" style="font-size: 14px !important"> 
+                        <a href="/kilometersheets/export/<%= kilometerSheetInfo.id %>" class="btn btnExport bg-transparent border-0 mx-0 px-0">
+                            <span class="iconify iconify__red mx-1" data-inline="false" data-icon="foundation:page-export-pdf" style="font-size: 25px !important"></span>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-            <table id="kilometersTable" class="table table-hover mt-5">
+        <div class="bg-white px-1">
+            <table id="kilometersTable" class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col" style="font-size: 15px !important">Raison</th>
-                        <th scope="col" style="font-size: 15px !important">Action</th>
+                        <th style="font-size: 15px !important">Date</th>
+                        <th class="text-center" style="font-size: 15px !important">Trajet <br> (De où à où) </th>
+                        <th class="text-center" style="font-size: 15px !important">Commentaire</th>
+                        <th class="text-center" style="font-size: 15px !important" colspan="3">Relevé de compteur <br> (Départ, Arriver, Distance) </th>
+                        <th id="rowAction" class="text-center d-none" style="font-size: 15px !important"> Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-
-                </tbody>
+                <tbody id="kilometerRowContent"></tbody>
             </table>
         </div>
     </div>
 
+    <script src="/js/kilometerScript.js"></script>
 </body>
 
 </html>

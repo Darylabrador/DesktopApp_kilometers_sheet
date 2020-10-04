@@ -9,7 +9,7 @@ const MoveReasons         = require('../models/movereasons');
 const PersonsVehicles     = require('../models/personsVehicles');
 const PersonsWorkFors     = require('../models/personsworkfors');
 const KilometerSheetsRows = require('../models/kilometersheetrows');
-
+const Horsepowers         = require('../models/horsepowers');
 
 /* --------------- ALL GET PAGE ABOUT KILOMETERS SHEETS  --------------- */
 
@@ -69,10 +69,66 @@ exports.getCreateKilometerSheets = async (req, res, next) => {
 
 
 /**
+ * Get update kilometerSheet page
+ *
+ * Render update kilometerSheet page
+ * @function getUpdateKilometerSheets
+ * @returns {VIEW} delete kilometerSheet view
+ */
+exports.getUpdateKilometerSheets = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const kilometerSheetInfo = await KilometerSheets.findOne({
+            where: { personId: req.userId, id },
+            include: [Persons, Vehicles, Entities]
+        });
+
+        if (!kilometerSheetInfo) {
+            req.flash('error', 'Fiche introuvable');
+            return res.redirect('/kilometersheets');
+        }
+
+        const horsepowersInfo = await Vehicles.findOne({
+            where: { id: kilometerSheetInfo.vehicle.id },
+            include: [ Horsepowers ] 
+        });
+
+        res.render('kilometersheets/update', {
+            backgroundColor: "bg-lightblue-color",
+            kilometerSheetInfo, horsepowersInfo
+        });
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/kilometersheets');
+    }
+}
+
+
+
+/**
+ * Get select info about movereason kilometerSheet page
+ *
+ * @function getMovereason
+ * @returns {JSON}
+ */
+exports.getMovereason = async (req, res, next) => {
+    try {
+        const selectInfo = await MoveReasons.findAll();
+        res.status(200).json({
+            selectField: selectInfo
+        })
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/vehicles');
+    }
+}
+
+
+/**
  * Get delete kilometerSheet page
  *
  * Render delete kilometerSheet page
- * @function getIndexKilometerSheets
+ * @function getDeleteKilometerSheets
  * @returns {VIEW} delete kilometerSheet view
  */
 exports.getDeleteKilometerSheets = async (req, res, next) => {
@@ -83,6 +139,12 @@ exports.getDeleteKilometerSheets = async (req, res, next) => {
             where: { personId: req.userId, id },
             include: [Persons, Vehicles, Entities]
         });
+
+        if(!kilometerSheetInfo){
+            req.flash('error', 'Fiche introuvable');
+            return res.redirect('/kilometersheets');
+        }
+
         res.render('kilometersheets/delete', {
             backgroundColor: "bg-lightblue-color",
             kilometerSheetInfo

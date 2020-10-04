@@ -45,6 +45,28 @@
         </div>
     </div>
 
+    <script>
+        $('#kilometersTable').DataTable({
+            "language": {
+                "sSearch": "Rechercher",
+                "infoEmpty": "Aucune donnée disponible",
+                "zeroRecords": "Aucun élément n'a été trouvé",
+                "paginate": {
+                    "first": "Premier",
+                    "last": "Dernier",
+                    "next": "Suivant",
+                    "previous": "Précédent"
+                },
+            },
+            responsive: true,
+            pageLength: 5,
+        });
+
+        $("#kilometersTable_filter").parent().addClass(["d-flex", "justify-content-start", "ml-3"]);
+        $("#kilometersTable_filter").addClass(["d-flex", "justify-content-start"]);
+        $("#kilometersTable_info").parent().remove();
+        $("#kilometersTable_length").parent().remove();
+    </script>
 </body>
 
 </html>
