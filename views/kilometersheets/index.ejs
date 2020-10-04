@@ -1,0 +1,32 @@
+<% include ../includes/head %>
+
+</head>
+
+<body class="bg-darkblue-color h-100">
+    <% include ../includes/windowButtons , {backgroundColor: backgroundColor} %>
+
+    <% include ../includes/sidenav %>
+
+    <div class="main pt-5">
+
+        <div class="bg-white py-3 px-1 mt-5">
+
+            <% include ../includes/messageFlash %>
+
+            <table id="kilometersTable" class="table table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col" style="font-size: 15px !important">Raison</th>
+                        <th scope="col" style="font-size: 15px !important">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>

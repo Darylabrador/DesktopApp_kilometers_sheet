@@ -32,7 +32,7 @@ exports.postLogin = async (req, res, next) => {
 
         if (isEqual) {
             req.session.isLoggedIn = true;
-            req.session.userId = personExist._id;
+            req.session.userId = personExist.id;
             return req.session.save(err => {
                 res.redirect('/dashboard');
             });

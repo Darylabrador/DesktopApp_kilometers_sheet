@@ -5,6 +5,7 @@ const http        = require('http').Server(expressApp);
 const database    = require('./config/database');
 const session     = require('express-session');
 const flash       = require('connect-flash');
+const bcrypt      = require('bcryptjs');
 
 // Get all models
 const Entities            = require('./models/entities');
@@ -25,6 +26,7 @@ const entitiesRoutes      = require('./routes/entitiesRoutes');
 const personsRoutes       = require('./routes/personsRoutes');
 const movereasonsRoutes   = require('./routes/movereasonsRoutes');
 const vehiclesRoutes      = require('./routes/vehiclesRoutes');
+const kilometerRoutes     = require('./routes/kilometerRoutes');
 
 /* variable initialisation's */
 const router = {
@@ -85,16 +87,44 @@ function start(callback) {
           .sync()
           .then(result => {
 
-            // starting web server
-            http.listen(3000, function () {
-              console.log('Application is running on port 3000');
-              router.isStarted = true;
-              if (typeof callback != 'undefined') {
-                callback();
-              }
-            });
+            return Persons.findOne({ where: {login: 'daryl'} });
 
-          });
+          }).then(userExit => {
+            if(!userExit) {
+
+              bcrypt.hash('123456', 12).then(hashedPwd => {
+                let startedAccount = new Persons({
+                  login: 'daryl',
+                  password: hashedPwd,
+                  name: 'Daryl',
+                  surname: 'ABRADOR',
+                  role: 'administrator'
+                });
+
+                // starting web server after creating test account
+                startedAccount.save().then(() => {
+                  http.listen(3000, function () {
+                    console.log('Application is running on port 3000 after creating account');
+                    router.isStarted = true;
+                    if (typeof callback != 'undefined') {
+                      callback();
+                    }
+                  });
+                });
+
+              })
+            } else {
+
+              // starting web server
+              http.listen(3000, function () {
+                console.log('Application is running on port 3000');
+                router.isStarted = true;
+                if (typeof callback != 'undefined') {
+                  callback();
+                }
+              });
+            }
+          })
       });
     });
   } else {
@@ -136,6 +166,25 @@ function init(callback) {
   expressApp.use(flash());
 
   expressApp.use((req, res, next) => {
+    if (!req.session.userId) {
+      return next();
+    }
+    Persons.findByPk(req.session.userId)
+      .then(user => {
+        if (!user) {
+          return next();
+        }
+        req.userId = user.id;
+        res.locals.currentUserId = user._id;
+        res.locals.isAuthenticated = req.session.isLoggedIn;
+        next();
+      })
+      .catch(err => {
+        next()
+      });
+  });
+
+  expressApp.use((req, res, next) => {
     res.locals.success_message = req.flash('success');
     res.locals.error_message   = req.flash('error');
     next();
@@ -160,6 +209,7 @@ function loadRoutes(callback) {
   expressApp.use('/persons', personsRoutes);
   expressApp.use('/movereasons', movereasonsRoutes);
   expressApp.use('/vehicles', vehiclesRoutes);
+  expressApp.use('/kilometersheets', kilometerRoutes);
   
   if (typeof callback != 'undefined') {
     callback();
