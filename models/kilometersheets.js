@@ -15,11 +15,13 @@ const KilometerSheets = sequelize.define('kilometerSheets', {
     },
     totalKilometer: {
         type: DataTypes.FLOAT,
-        allowNull: true
+        allowNull: true,
+        defaultValue: 0
     },
     compensation: {
         type: DataTypes.FLOAT,
-        allowNull: true
+        allowNull: true,
+        defaultValue: 0
     },
 }, { timestamps: true });
 

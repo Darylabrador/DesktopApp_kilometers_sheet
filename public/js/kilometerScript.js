@@ -54,7 +54,7 @@ btnNewRow.addEventListener('click', evt => {
         </td>
 
         <td> 
-            <input type="text" class="form-control driveRow">
+            <input type="text" class="form-control travelRow">
         </td>
 
         <td class="selectField"> </td>
@@ -110,7 +110,7 @@ btnNewRow.addEventListener('click', evt => {
 
 
     let dateRow           = document.querySelectorAll('.dateRow');
-    let driveRow          = document.querySelectorAll('.driveRow');
+    let travelRow         = document.querySelectorAll('.travelRow');
     let reasonRow         = document.querySelectorAll('.reasonRow');
     let speedometerStart  = document.querySelectorAll('.speedometerStart');
     let speedometerEnd    = document.querySelectorAll('.speedometerEnd');
