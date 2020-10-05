@@ -9,6 +9,32 @@ let urlSelect = "/kilometersheets/reasonselect";
 let req = new XMLHttpRequest();
 let method, data;
 
+/**
+ * 
+ * @param {number} speedometerStart 
+ * @param {number} speedometerEnd 
+ */
+const calculDistanceOnRow = (speedometerStart, speedometerEnd, displayDistance) => {
+    let resultDisplay = 0;
+    for (let i = 0; i < speedometerStart.length; i++) {
+        speedometerStart[i].addEventListener('keyup', evt => {
+            displayDistance[i].value = +speedometerEnd[i].value - +evt.currentTarget.value;
+        });
+
+        speedometerStart[i].addEventListener('change', evt => {
+            displayDistance[i].value = +speedometerEnd[i].value - +evt.currentTarget.value;
+        });
+
+        speedometerEnd[i].addEventListener('keyup', evt => {
+            displayDistance[i].value = +evt.currentTarget.value - +speedometerStart[i].value;
+        });
+
+        speedometerEnd[i].addEventListener('change', evt => {
+            displayDistance[i].value = +evt.currentTarget.value - +speedometerStart[i].value;
+        });
+    }
+}
+
 btnNewRow.addEventListener('click', evt => {
     let infoClass = rowAction.classList.contains('d-none');
     if(infoClass) {
@@ -24,25 +50,25 @@ btnNewRow.addEventListener('click', evt => {
 
     newRowInput.innerHTML = `
         <td> 
-            <input type="date" value="${today}" class="form-control">
+            <input type="date" value="${today}" class="form-control dateRow">
         </td>
 
         <td> 
-            <input type="text" class="form-control">
+            <input type="text" class="form-control driveRow">
         </td>
 
         <td class="selectField"> </td>
 
         <td> 
-            <input type="number" step="1" min="0" class="form-control">
+            <input type="number" step="0.001" min="0" value="0" class="form-control speedometerStart">
         </td>
   
         <td> 
-            <input type="number" step="1" min="0" class="form-control">
+            <input type="number" step="0.001" min="0" value="0" class="form-control speedometerEnd">
         </td>
 
         <td> 
-            <input type="number" step="1" min="0" class="form-control">
+            <input disabled type="number" step="0.001" min="0" value="0" class="form-control displayDistance">
         </td>
 
         <td class="d-flex justify-content-center align-items-center"> 
@@ -67,7 +93,7 @@ btnNewRow.addEventListener('click', evt => {
         if(req.readyState === XMLHttpRequest.DONE && req.status === 200) {
             let reponse = req.response;
             let selectReason = document.createElement('select');
-            selectReason.classList.add('form-control');
+            selectReason.classList.add('form-control', 'reasonRow');
 
             for (let i = 0; i < reponse.selectField.length; i++){
                 let optionsSelect = document.createElement('option');
@@ -82,10 +108,24 @@ btnNewRow.addEventListener('click', evt => {
         }
     }
 
+
+    let dateRow           = document.querySelectorAll('.dateRow');
+    let driveRow          = document.querySelectorAll('.driveRow');
+    let reasonRow         = document.querySelectorAll('.reasonRow');
+    let speedometerStart  = document.querySelectorAll('.speedometerStart');
+    let speedometerEnd    = document.querySelectorAll('.speedometerEnd');
+    let displayDistance   = document.querySelectorAll('.displayDistance');
+
+    calculDistanceOnRow(speedometerStart, speedometerEnd, displayDistance);
+
     let btnDeleteRow = document.querySelectorAll('.btnDeleteRow');
     for (let k = 0; k < btnDeleteRow.length; k++) {
         btnDeleteRow[k].addEventListener('click', evt => {
             btnDeleteRow[k].parentElement.parentElement.remove();
+            let speedometerStart = document.querySelectorAll('.speedometerStart');
+            let speedometerEnd   = document.querySelectorAll('.speedometerEnd');
+            let displayDistance  = document.querySelectorAll('.displayDistance');
+            calculDistanceOnRow(speedometerStart, speedometerEnd, displayDistance);
         });
     }
 });
