@@ -210,6 +210,27 @@ exports.postCreateKilometerSheets = async (req, res, next) => {
     }
 }
 
+
+
+
+/**
+ * Handle post add row to kilometerSheet info
+ *
+ * @function postAddRowKilometerSheets
+ * @returns {JSON}
+ */
+exports.postAddRowKilometerSheets = async (req, res, next) => {
+
+    try {
+
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect('/kilometersheets');
+    }
+}
+
+
+
 /**
  * Handle post delete kilometerSheet info
  *
@@ -242,7 +263,3 @@ exports.postDeleteKilometerSheets = async (req, res, next) => {
         return res.redirect('/kilometersheets');
     }
 }
-
-
-
-   

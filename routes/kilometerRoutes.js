@@ -32,6 +32,8 @@ router.post(
     kilometersController.postCreateKilometerSheets
 );
 
+router.post('/addrows', isAuth, kilometersController.postAddRowKilometerSheets)
+
 router.post('/delete', isAuth, kilometersController.postDeleteKilometerSheets)
 
 module.exports = router;

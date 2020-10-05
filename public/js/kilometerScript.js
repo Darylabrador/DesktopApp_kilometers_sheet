@@ -3,13 +3,13 @@ let kilometerRowContent = document.getElementById('kilometerRowContent');
 let infoTotalKm         = document.getElementById('totalKm');
 let infoCompensation    = document.getElementById('compensation');
 let rowAction           = document.getElementById('rowAction');
+let btnConfirmAllRow    = document.getElementById('confirmAllRow');
 let kilometersheetId    = btnNewRow.getAttribute('data-id');
 
 let urlSelect = "/kilometersheets/reasonselect";
+let urlAddRow = "/kilometersheets/addrows";
 let req = new XMLHttpRequest();
 let method, data;
-
-
 
 /**
  * Update total km info
@@ -210,4 +210,23 @@ btnNewRow.addEventListener('click', evt => {
             calculDistanceOnRow(speedometerStart, speedometerEnd, displayDistance);
         });
     }
+});
+
+// Confirm end edit before sending data
+btnConfirmAllRow.addEventListener('click', evt => {
+    bootbox.confirm({
+        centerVertical: true,
+        message: "Avez-vous terminer ?",
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> Non'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Oui'
+            }
+        },
+        callback: function (result) { 
+            /* result is a boolean; true = OK, false = Cancel*/ 
+        }
+    })
 });
