@@ -17,11 +17,7 @@ const KilometerSheetsRows = sequelize.define('kilometerSheetsRows', {
         type: DataTypes.DATEONLY,
         allowNull: false
     },
-    travelStart: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    travelEnd: {
+    travel: {
         type: DataTypes.STRING,
         allowNull: false
     },

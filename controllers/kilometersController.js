@@ -93,9 +93,16 @@ exports.getUpdateKilometerSheets = async (req, res, next) => {
             include: [ Horsepowers ] 
         });
 
+        const kilometerSheetRowsInfo = await KilometerSheetRows.findAll({
+            where: { kilometerSheetId: id},
+            include: [MoveReasons]
+        });
+
         res.render('kilometersheets/update', {
             backgroundColor: "bg-lightblue-color",
-            kilometerSheetInfo, horsepowersInfo
+            kilometerSheetInfo, 
+            kilometerSheetRowsInfo,
+            horsepowersInfo
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
