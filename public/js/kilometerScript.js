@@ -31,9 +31,7 @@ const updateTotalKm = () => {
         infoCompensation.value = Math.round( +case1 * resultDisplay );
     } else if (resultDisplay > 5000 && resultDisplay <= 20000 ) {
         let [number1, number2] = case2.split('+');
-        let valueToCalc1 = parseFloat(number1.trim());
-        let valueToCalc2 = Number(number2.trim());
-        infoCompensation.value = Math.round( valueToCalc1 * resultDisplay) + valueToCalc2;
+        infoCompensation.value = Math.round(+number1 * resultDisplay) + +number2;
     } else {
         infoCompensation.value = Math.round(+case3 * resultDisplay);
     }

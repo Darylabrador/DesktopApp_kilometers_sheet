@@ -51,7 +51,6 @@ exports.getCreateHorsepowers = (req, res, next) => {
  */
 exports.getUpdateHorsepowers = async (req, res, next) => {
     const id = req.params.id;
-    console.log(id)
     try {
         const horsepowersInfo = await Horsepowers.findByPk(id);
         if (!horsepowersInfo){
@@ -119,7 +118,25 @@ exports.postCreateHorsepowers = async (req, res, next) => {
     }
 
     try {
-        const newHorspowerRow = new Horsepowers({ label, case1, case2, case3 });
+
+        let [number1, number2] = case2.split('+');
+        let number1Trim = parseFloat(number1.trim());
+        let number2Trim = parseFloat(number2.trim());
+
+        if (number1Trim == 0 || number2Trim == 0 || isNaN(number1Trim) || isNaN(number2Trim)) {
+            req.flash('error', 'Convention ecriture non respectée !');
+            return res.redirect('/horsepowers/create');
+        }
+
+        let case2Modify = `${number1Trim}+${number2Trim}`;
+
+        const newHorspowerRow = new Horsepowers({ 
+            label, 
+            case1, 
+            case2: case2Modify, 
+            case3 
+        });
+
         await newHorspowerRow.save();
         req.flash('success', 'Création effectuer !');
         return res.redirect('/horsepowers');
@@ -147,9 +164,20 @@ exports.postUpdateHorsepowers = async (req, res, next) => {
             return res.redirect('/horsepowers');
         }
 
+        let [number1, number2] = case2.split('+');
+        let number1Trim = parseFloat(number1.trim());
+        let number2Trim = parseFloat(number2.trim());
+
+        if (number1Trim == 0 || number2Trim == 0 || isNaN(number1Trim) || isNaN(number2Trim)) {
+            req.flash('error', 'Convention ecriture non respectée !');
+            return res.redirect('/horsepowers/create');
+        }
+
+        let case2Modify = `${number1Trim}+${number2Trim}`;
+
         horsepowerRow.label = label;
         horsepowerRow.case1 = case1;
-        horsepowerRow.case2 = case2;
+        horsepowerRow.case2 = case2Modify;
         horsepowerRow.case3 = case3;
         await horsepowerRow.save();
 
