@@ -31,7 +31,7 @@ btnNewRow.addEventListener('click', evt => {
             <input type="text" class="form-control">
         </td>
 
-        <td id="selectField"> </td>
+        <td class="selectField"> </td>
 
         <td> 
             <input type="number" step="1" min="0" class="form-control">
@@ -46,7 +46,7 @@ btnNewRow.addEventListener('click', evt => {
         </td>
 
         <td class="d-flex justify-content-center align-items-center"> 
-            <button type="button" class="btn btnExport bg-transparent border-0 mx-0 px-0">
+            <button type="button" class="btn btnExport btnDeleteRow bg-transparent border-0 mx-0 px-0">
                 <span class="iconify iconify__red mx-1" data-inline="false" data-icon="bpmn:end-event-cancel" style="font-size: 16px !important"></span>
             </button>
         </td>
@@ -56,7 +56,7 @@ btnNewRow.addEventListener('click', evt => {
 
 
     // select info about movereason
-    let selectInfo = document.getElementById('selectField');
+    let selectInfo = document.querySelectorAll('.selectField');
 
     method = "GET";
     req.open(method, urlSelect);
@@ -75,7 +75,17 @@ btnNewRow.addEventListener('click', evt => {
                 optionsSelect.textContent = reponse.selectField[i].label;
                 selectReason.appendChild(optionsSelect);
             } 
-            selectInfo.appendChild(selectReason);
+
+            for (let j = 0; j < selectInfo.length; j++){
+                selectInfo[j].appendChild(selectReason);
+            }
         }
+    }
+
+    let btnDeleteRow = document.querySelectorAll('.btnDeleteRow');
+    for (let k = 0; k < btnDeleteRow.length; k++) {
+        btnDeleteRow[k].addEventListener('click', evt => {
+            btnDeleteRow[k].parentElement.parentElement.remove();
+        });
     }
 });
