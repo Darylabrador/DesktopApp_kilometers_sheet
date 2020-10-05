@@ -9,28 +9,112 @@ let urlSelect = "/kilometersheets/reasonselect";
 let req = new XMLHttpRequest();
 let method, data;
 
+
+
+/**
+ * Update total km info
+ */
+const updateTotalKm = () => {
+    let resultDisplay  = 0;
+    let allDistance = document.querySelectorAll('.displayDistance');
+    allDistance.forEach(distanceInfo => {
+        resultDisplay += +distanceInfo.value;
+    });
+    infoTotalKm.value = resultDisplay;
+
+    // All scale case
+    let case1 = document.getElementById('case1').value;
+    let case2 = document.getElementById('case2').value;
+    let case3 = document.getElementById('case3').value;
+    
+    if (resultDisplay <= 5000){
+        infoCompensation.value = Math.round( +case1 * resultDisplay );
+    } else if (resultDisplay > 5000 && resultDisplay <= 20000 ) {
+        let [number1, number2] = case2.split('+');
+        let valueToCalc1 = parseFloat(number1.trim());
+        let valueToCalc2 = Number(number2.trim());
+        infoCompensation.value = Math.round( valueToCalc1 * resultDisplay) + valueToCalc2;
+    } else {
+        infoCompensation.value = Math.round(+case3 * resultDisplay);
+    }
+}
+
+
 /**
  * 
  * @param {number} speedometerStart 
  * @param {number} speedometerEnd 
  */
 const calculDistanceOnRow = (speedometerStart, speedometerEnd, displayDistance) => {
-    let resultDisplay = 0;
+    
     for (let i = 0; i < speedometerStart.length; i++) {
         speedometerStart[i].addEventListener('keyup', evt => {
-            displayDistance[i].value = +speedometerEnd[i].value - +evt.currentTarget.value;
+            let valueStart = +evt.currentTarget.value;
+            let valueEnd = +speedometerEnd[i].value;
+
+            if (valueStart == 0) {
+                infoTotalKm.value      = 0;
+                infoCompensation.value = 0;
+            }
+
+            if(valueStart > valueEnd){
+                displayDistance[i].value = 0;
+            }else{
+                displayDistance[i].value = valueEnd - valueStart;
+                updateTotalKm();
+            }
         });
 
         speedometerStart[i].addEventListener('change', evt => {
-            displayDistance[i].value = +speedometerEnd[i].value - +evt.currentTarget.value;
+            let valueStart = +evt.currentTarget.value;
+            let valueEnd = +speedometerEnd[i].value;
+
+            if (valueStart == 0) {
+                infoTotalKm.value      = 0;
+                infoCompensation.value = 0;
+            }
+
+            if(valueStart > valueEnd){
+                displayDistance[i].value = 0;
+            }else{
+                displayDistance[i].value = valueEnd - valueStart;
+                updateTotalKm();
+            }
+            
         });
 
         speedometerEnd[i].addEventListener('keyup', evt => {
-            displayDistance[i].value = +evt.currentTarget.value - +speedometerStart[i].value;
+            let valueStart = +speedometerStart[i].value;
+            let valueEnd = +evt.currentTarget.value;
+
+            if (valueEnd == 0){
+                infoTotalKm.value      = 0;
+                infoCompensation.value = 0;
+            }
+
+            if(valueStart > valueEnd){
+                displayDistance[i].value = 0;
+            }else{
+                displayDistance[i].value = valueEnd - valueStart;
+                updateTotalKm();
+            }
         });
 
         speedometerEnd[i].addEventListener('change', evt => {
-            displayDistance[i].value = +evt.currentTarget.value - +speedometerStart[i].value;
+            let valueStart = +speedometerStart[i].value;
+            let valueEnd = +evt.currentTarget.value;
+
+            if (valueEnd == 0) {
+                infoTotalKm.value      = 0;
+                infoCompensation.value = 0;
+            }
+
+            if(valueStart > valueEnd){
+                displayDistance[i].value = 0;
+            }else{
+                displayDistance[i].value = valueEnd - valueStart;
+                updateTotalKm();
+            }
         });
     }
 }
@@ -60,15 +144,15 @@ btnNewRow.addEventListener('click', evt => {
         <td class="selectField"> </td>
 
         <td> 
-            <input type="number" step="0.001" min="0" value="0" class="form-control speedometerStart">
+            <input type="number" step="0.01" min="0" placeholder="0" class="form-control speedometerStart">
         </td>
   
         <td> 
-            <input type="number" step="0.001" min="0" value="0" class="form-control speedometerEnd">
+            <input type="number" step="0.01" min="0" placeholder="0" class="form-control speedometerEnd">
         </td>
 
         <td> 
-            <input disabled type="number" step="0.001" min="0" value="0" class="form-control displayDistance">
+            <input disabled type="number" step="0.01" min="0" placeholder="0" class="form-control displayDistance">
         </td>
 
         <td class="d-flex justify-content-center align-items-center"> 
