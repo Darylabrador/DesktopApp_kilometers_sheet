@@ -53,7 +53,11 @@ exports.getStats = async (req, res, next) => {
  * @returns {VIEW} stats detail view
  */
 exports.getStatsDetails = async (req, res, next) => {
+    let totalKmTravelArray = [];
+    let totalKmTravelArrayModif = [];
+    let totalKmTravelArrayFinal = [];
     const id = req.params.id;
+
     try {
         const totalKmPersons = await KilometerSheets.findAll({
             where: { entityId: id},
@@ -77,31 +81,39 @@ exports.getStatsDetails = async (req, res, next) => {
             raw: true
         });
 
+        const infoSheets = await KilometerSheets.findAll({
+            where: { entityId: id }
+        });
 
-        const totalKmTravel = await KilometerSheets.findAll({
-            where: { entityId: id },
-            include: [{
-                model: KilometerSheetsRows,
+        for (let i = 0; i < infoSheets.length; i++){
+            let totalKmTravel = await KilometerSheetRows.findAll({
+                where: { kilometerSheetId: infoSheets[i].id },
                 attributes: [
                     [sequelize.fn('sum', sequelize.col('distance')), 'totalKmTravel'],
                     'kilometerSheetId',
                     'travel'
                 ],
                 group: ['travel'],
-            }]
-        });
-
-        console.log(totalKmTravel[0]);
-        console.log(totalKmTravel[0].kilometerSheetsRows.kilometerSheetId);
-        console.log(totalKmTravel[0].kilometerSheetsRows.travel);
-        console.log(totalKmTravel[0].kilometerSheetsRows.totalKmTravel);
+                raw: true
+            }); 
+            totalKmTravelArray.push(totalKmTravel)
+        }
+        
+        for (let i = 0; i < totalKmTravelArray.length; i++) { 
+            for (let j = 0; j < totalKmTravelArray[i].length; j++) {
+                totalKmTravelArrayModif.push({
+                    totalKmTravel: totalKmTravelArray[i][j].totalKmTravel,
+                    travel: totalKmTravelArray[i][j].travel
+                });
+            }
+        }
 
         const personInfo  = await Persons.findAll();
         const vehicleInfo = await Vehicles.findAll();
 
         res.render('stats/details', {
             backgroundColor: "bg-lightblue-color",
-            totalKmPersons, totalKmVehicle,
+            totalKmPersons, totalKmVehicle, totalKmTravelArrayModif,
             personInfo, vehicleInfo
         });
 

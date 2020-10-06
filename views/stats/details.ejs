@@ -64,6 +64,30 @@
                 </tbody>
             </table>
         </div>
+
+
+        <div class="bg-white py-3 px-1 mt-3">
+            <table id="statsTableTravel" class="table table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col" style="font-size: 15px !important"> Trajet </th>
+                        <th scope="col" style="font-size: 15px !important"> Total KM </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i = 0; i < totalKmTravelArrayModif.length; i++) { %>
+                        <tr>
+                            <td>
+                                <%= totalKmTravelArrayModif[i].travel %>
+                            </td>
+                            <td>
+                                <%= totalKmTravelArrayModif[i].totalKmTravel %>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
@@ -109,6 +133,28 @@
             $("#statsTableVehicle_filter").addClass(["d-flex", "justify-content-start"]);
             $("#statsTableVehicle_info").parent().remove();
             $("#statsTableVehicle_length").parent().remove();
+
+
+            $('#statsTableTravel').DataTable({
+                "language": {
+                    "sSearch": "Rechercher",
+                    "infoEmpty": "Aucune donnée disponible",
+                    "zeroRecords": "Aucun élément n'a été trouvé",
+                    "paginate": {
+                        "first": "Premier",
+                        "last": "Dernier",
+                        "next": "Suivant",
+                        "previous": "Précédent"
+                    },
+                },
+                responsive: true,
+                pageLength: 5,
+            });
+
+            $("#statsTableTravel_filter").parent().addClass(["d-flex", "justify-content-start", "ml-3"]);
+            $("#statsTableTravel_filter").addClass(["d-flex", "justify-content-start"]);
+            $("#statsTableTravel_info").parent().remove();
+            $("#statsTableTravel_length").parent().remove();
     </script>
 </body>
 
