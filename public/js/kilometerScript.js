@@ -282,6 +282,12 @@ btnConfirmAllRow.addEventListener('click', evt => {
                                 let reponse = req.response;
                                 if(reponse.success){
                                     location.reload();
+                                    localStorage.setItem('isSuccess', reponse.message);
+                                } else {
+                                    bootbox.alert({
+                                        centerVertical: true,
+                                        message: reponse.message
+                                    });
                                 }
                             }
                         } else {
@@ -296,3 +302,13 @@ btnConfirmAllRow.addEventListener('click', evt => {
         }
     })
 });
+
+if(localStorage.getItem('isSuccess')){
+    bootbox.alert({
+        centerVertical: true,
+        message: localStorage.getItem('isSuccess'),
+        callback: function() {
+            localStorage.clear();
+        }
+    });
+}
