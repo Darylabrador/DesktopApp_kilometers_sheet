@@ -62,29 +62,36 @@
                 </thead>
                 <tbody id="kilometerRowContent">
                     <% kilometerSheetRowsInfo.forEach(info => { %>
-                        <td>
-                            <input disabled type="date" value="<%=info.date%>" class="form-control dateRow">
-                        </td>
-                        
-                        <td>
-                            <input disabled type="text"  value="<%=info.travel%>" class="form-control driveRow">
-                        </td>
-                        
-                        <td> 
-                            <input disabled type="text" value="<%=info.comments%>" class="form-control">
-                        </td>
-                        
-                        <td>
-                            <input disabled type="number" value="<%=info.speedometerStart%>" class="form-control speedometerStart">
-                        </td>
-                        
-                        <td>
-                            <input disabled type="number" value="<%=info.speedometerEnd%>" class="form-control speedometerEnd">
-                        </td>
-                        
-                        <td>
-                            <input disabled type="number" value="<%=info.distance%>" class="form-control displayDistance">
-                        </td>
+                        <tr>
+                            <td>
+                                <input disabled type="date" value="<%=info.date%>" class="dateRow">
+                            </td>
+                            
+                            <td>
+                                <input disabled type="text" value="<%=info.travel%>" class="travelRow">
+                            </td>
+                            
+                            <td>
+                                <select disabled class="reasonRow">
+                                    <% movereasonList.forEach(element => { %>
+                                        <% if (element.id == info.moveReasonId) { %>
+                                        <option selected value="<%=element.id%>"> <%= element.label %> </option>
+                                        <% } %>
+                                    <% }) %>
+                                </select>
+                            </td>
+                            
+                            <td>
+                                <input disabled type="number" value="<%=info.speedometerStart%>" class="speedometerStart">
+                            </td>
+                            
+                            <td>
+                                <input disabled type="number" value="<%=info.speedometerEnd%>" class="speedometerEnd">
+                            </td>
+                            
+                            <td>
+                                <input disabled type="number" value="<%=info.distance%>" class="displayDistance">                            </td>
+                        </tr>
                     <% }) %>
                 </tbody>
             </table>

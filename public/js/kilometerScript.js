@@ -117,6 +117,11 @@ const calculDistanceOnRow = (speedometerStart, speedometerEnd, displayDistance) 
     }
 }
 
+
+const sendData = () => {
+
+}
+
 btnNewRow.addEventListener('click', evt => {
     let infoClass = rowAction.classList.contains('d-none');
     if(infoClass) {
@@ -190,10 +195,6 @@ btnNewRow.addEventListener('click', evt => {
         }
     }
 
-
-    let dateRow           = document.querySelectorAll('.dateRow');
-    let travelRow         = document.querySelectorAll('.travelRow');
-    let reasonRow         = document.querySelectorAll('.reasonRow');
     let speedometerStart  = document.querySelectorAll('.speedometerStart');
     let speedometerEnd    = document.querySelectorAll('.speedometerEnd');
     let displayDistance   = document.querySelectorAll('.displayDistance');
@@ -226,7 +227,72 @@ btnConfirmAllRow.addEventListener('click', evt => {
             }
         },
         callback: function (result) { 
-            /* result is a boolean; true = OK, false = Cancel*/ 
+
+            if(result) {
+                let isComplete = true;
+                let dateRowInfo           = document.querySelectorAll('.dateRow');
+                let travelRowInfo         = document.querySelectorAll('.travelRow');
+                let reasonRowInfo         = document.querySelectorAll('.reasonRow');
+                let speedometerStartInfo  = document.querySelectorAll('.speedometerStart');
+                let speedometerEndInfo    = document.querySelectorAll('.speedometerEnd');
+                let displayDistanceInfo   = document.querySelectorAll('.displayDistance');
+                let infoTotalKmInfo       = document.getElementById('totalKm').value;
+                let infoCompensationInfo  = document.getElementById('compensation').value;
+
+                let dateRowArray            = [];
+                let travelRowArray          = [];
+                let reasonRowArray          = [];
+                let speedometerStartArray   = [];
+                let speedometerEndArray     = [];
+                let distanceArray           = [];
+
+                for (let i = 0; i < dateRowInfo.length; i++){
+                    if (dateRowInfo[i].value != "" && travelRowInfo[i].value != "" && reasonRowInfo[i].value != "" && speedometerStartInfo[i].value != "" && speedometerEndInfo[i].value != "" && displayDistanceInfo[i].value != "") {
+                        dateRowArray.push(dateRowInfo[i].value);
+                        travelRowArray.push(travelRowInfo[i].value);
+                        reasonRowArray.push(reasonRowInfo[i].value);
+                        speedometerStartArray.push(speedometerStartInfo[i].value);
+                        speedometerEndArray.push(speedometerEndInfo[i].value);
+                        distanceArray.push(displayDistanceInfo[i].value);
+                    } else {
+                        bootbox.alert({
+                            centerVertical: true,
+                            message: "Une ligne est incomplète !"
+                        });
+                        isComplete = false;
+                    }
+                }
+
+                if(isComplete){
+                    method = "POST";
+                    
+                    data = {
+                        kilometersheetId, infoTotalKmInfo, infoCompensationInfo,
+                        dateRowArray, travelRowArray, reasonRowArray, speedometerStartArray, speedometerEndArray, distanceArray
+                    }
+
+                    req.open(method, urlAddRow);
+                    req.responseType = "json";
+                    req.setRequestHeader('Content-Type', 'application/json;charset=utf-8');
+                    req.send(JSON.stringify(data));
+
+                    req.onload = () => {
+                        if(req.readyState === XMLHttpRequest.DONE) {
+                            if(req.status === 200) {
+                                let reponse = req.response;
+                                if(reponse.success){
+                                    location.reload();
+                                }
+                            }
+                        } else {
+                            bootbox.alert({
+                                centerVertical: true,
+                                message: "Une erreur est survenue"
+                            });
+                        }
+                    }
+                }
+            }
         }
     })
 });

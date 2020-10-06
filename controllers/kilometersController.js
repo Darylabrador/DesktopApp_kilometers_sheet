@@ -98,11 +98,14 @@ exports.getUpdateKilometerSheets = async (req, res, next) => {
             include: [MoveReasons]
         });
 
+        const movereasonList = await MoveReasons.findAll();
+
         res.render('kilometersheets/update', {
             backgroundColor: "bg-lightblue-color",
             kilometerSheetInfo, 
             kilometerSheetRowsInfo,
-            horsepowersInfo
+            horsepowersInfo,
+            movereasonList
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
@@ -220,12 +223,59 @@ exports.postCreateKilometerSheets = async (req, res, next) => {
  * @returns {JSON}
  */
 exports.postAddRowKilometerSheets = async (req, res, next) => {
+    const { 
+        kilometersheetId, 
+        infoTotalKmInfo, 
+        infoCompensationInfo,
+        dateRowArray,
+        travelRowArray,
+        reasonRowArray,
+        speedometerStartArray,
+        speedometerEndArray,
+        distanceArray
+    } = req.body;
 
     try {
 
+        const kilometerSheetInfo = await KilometerSheets.findByPk(kilometersheetId);
+
+        if (!kilometerSheetInfo){
+            return res.json({
+                success: false,
+                message: 'Fiche introuvable'
+            });
+        }
+
+        kilometerSheetInfo.totalKilometer = infoTotalKmInfo;
+        kilometerSheetInfo.compensation = infoCompensationInfo;
+        await kilometerSheetInfo.save();
+
+        await KilometerSheetRows.destroy({ 
+            where: { kilometerSheetId: kilometersheetId}
+        });
+
+        for (let i = 0; i < dateRowArray.length; i++){
+            const newRow = new KilometerSheetRows({
+                date: dateRowArray[i],
+                travel: travelRowArray[i],
+                speedometerStart: speedometerStartArray[i],
+                speedometerEnd: speedometerEndArray[i],
+                distance: distanceArray[i],
+                moveReasonId: reasonRowArray[i],
+                kilometerSheetId: kilometersheetId
+            });
+            await newRow.save();
+        }
+        
+        return res.status(200).json({
+            success: true,
+            message: 'Ajout effectué !'
+        });
     } catch (error) {
-        req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/kilometersheets');
+        return res.json({
+            success: false,
+            message: 'Une erreur est survenue'
+        });
     }
 }
 
