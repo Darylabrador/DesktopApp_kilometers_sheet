@@ -27,6 +27,7 @@ const personsRoutes       = require('./routes/personsRoutes');
 const movereasonsRoutes   = require('./routes/movereasonsRoutes');
 const vehiclesRoutes      = require('./routes/vehiclesRoutes');
 const kilometerRoutes     = require('./routes/kilometerRoutes');
+const statsRoutes         = require('./routes/statsRoutes');
 
 /* variable initialisation's */
 const router = {
@@ -210,6 +211,7 @@ function loadRoutes(callback) {
   expressApp.use('/movereasons', movereasonsRoutes);
   expressApp.use('/vehicles', vehiclesRoutes);
   expressApp.use('/kilometersheets', kilometerRoutes);
+  expressApp.use('/stats', statsRoutes);
   
   if (typeof callback != 'undefined') {
     callback();

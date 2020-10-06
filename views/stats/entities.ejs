@@ -1,0 +1,79 @@
+<% include ../includes/head %>
+
+</head>
+
+<body class="bg-darkblue-color h-100">
+    <% include ../includes/windowButtons , {backgroundColor: backgroundColor} %>
+
+    <% include ../includes/sidenav %>
+
+    <div class="main pt-5">
+
+        <div class="bg-white py-3 px-1 mt-5">
+            <table id="statsTable" class="table table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col" style="font-size: 15px !important">Entité</th>
+                        <th scope="col" style="font-size: 15px !important">Total KM</th>
+                        <th scope="col" style="font-size: 15px !important">Total Compensation</th>
+                        <th scope="col" style="font-size: 15px !important">Détails</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% kilometerSheetInfo.forEach(info => { %>
+                        <tr>
+                            <td>
+                                <p>  
+                                    <% entityInfo.forEach(entity => { %>
+                                        <% if(entity.id == info.entityId) { %>
+                                            <%= entity.name %>
+                                        <% } %>
+                                    <% }) %>
+                                </p>
+                            </td>
+
+                            <td>
+                                <p> <%= info.totalKm %> KM </p>
+                            </td>
+
+                            <td>
+                                <p> <%= info.totalCompensation %> € </p>
+                            </td>
+
+                            <td>
+                                <a href="/stats/details/<%= info.entityId %>" class="bg-transparent border-0 mx-0 px-0">
+                                    <span class="iconify iconify__black mx-1" data-inline="false" data-icon="ant-design:eye-filled" style="color: black;"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $('#statsTable').DataTable({
+                "language": {
+                    "sSearch": "Rechercher",
+                    "infoEmpty": "Aucune donnée disponible",
+                    "zeroRecords": "Aucun élément n'a été trouvé",
+                    "paginate": {
+                        "first": "Premier",
+                        "last": "Dernier",
+                        "next": "Suivant",
+                        "previous": "Précédent"
+                    },
+                },
+                responsive: true,
+                pageLength: 5,
+            });
+
+            $("#statsTable_filter").parent().addClass(["d-flex", "justify-content-start", "ml-3"]);
+            $("#statsTable_filter").addClass(["d-flex", "justify-content-start"]);
+            $("#statsTable_info").parent().remove();
+            $("#statsTable_length").parent().remove();
+    </script>
+</body>
+
+</html>

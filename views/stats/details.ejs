@@ -1,0 +1,115 @@
+<% include ../includes/head %>
+
+</head>
+
+<body class="bg-darkblue-color h-100">
+    <% include ../includes/windowButtons , {backgroundColor: backgroundColor} %>
+
+    <% include ../includes/sidenav %>
+
+    <div class="main pt-5">
+
+        <div class="bg-white py-3 px-1">
+            <table id="statsTablePerson" class="table table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col" style="font-size: 15px !important"> Individu </th>
+                        <th scope="col" style="font-size: 15px !important"> Total KM </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i = 0; i < totalKmPersons.length; i++) { %>
+                    <tr>
+                        <td>
+                            <% personInfo.forEach(info => { %>
+                            <% if(totalKmPersons[i].personId == info.id) { %>
+                            <%= info.surname %> <%= info.name %>
+                            <% } %>
+                            <% }) %>
+                        </td>
+        
+                        <td>
+                            <%= totalKmPersons[i].totalKm %>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-white py-3 px-1 mt-3">
+            <table id="statsTableVehicle" class="table table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col" style="font-size: 15px !important"> vehicule </th>
+                        <th scope="col" style="font-size: 15px !important"> Total KM </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i = 0; i < totalKmVehicle.length; i++) { %>
+                        <tr>
+                            <td>
+                                <% vehicleInfo.forEach(info => { %>
+                                    <% if(totalKmVehicle[i].vehicleId == info.id) { %>
+                                        <%= info.mark %> <%= info.model %> <%= info.registrationNumber %>
+                                    <% } %>
+                                <% }) %>
+                            </td>
+
+                            <td>
+                                <%= totalKmVehicle[i].totalKm %>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $('#statsTablePerson').DataTable({
+            "language": {
+                "sSearch": "Rechercher",
+                "infoEmpty": "Aucune donnée disponible",
+                "zeroRecords": "Aucun élément n'a été trouvé",
+                "paginate": {
+                    "first": "Premier",
+                    "last": "Dernier",
+                    "next": "Suivant",
+                    "previous": "Précédent"
+                },
+            },
+            responsive: true,
+            pageLength: 5,
+        });
+
+        $("#statsTablePerson_filter").parent().addClass(["d-flex", "justify-content-start", "ml-3"]);
+        $("#statsTablePerson_filter").addClass(["d-flex", "justify-content-start"]);
+        $("#statsTablePerson_info").parent().remove();
+        $("#statsTablePerson_length").parent().remove();
+
+
+        $('#statsTableVehicle').DataTable({
+                "language": {
+                    "sSearch": "Rechercher",
+                    "infoEmpty": "Aucune donnée disponible",
+                    "zeroRecords": "Aucun élément n'a été trouvé",
+                    "paginate": {
+                        "first": "Premier",
+                        "last": "Dernier",
+                        "next": "Suivant",
+                        "previous": "Précédent"
+                    },
+                },
+                responsive: true,
+                pageLength: 5,
+            });
+
+            $("#statsTableVehicle_filter").parent().addClass(["d-flex", "justify-content-start", "ml-3"]);
+            $("#statsTableVehicle_filter").addClass(["d-flex", "justify-content-start"]);
+            $("#statsTableVehicle_info").parent().remove();
+            $("#statsTableVehicle_length").parent().remove();
+    </script>
+</body>
+
+</html>
