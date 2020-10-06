@@ -269,7 +269,7 @@ exports.postAddRowKilometerSheets = async (req, res, next) => {
         
         return res.status(200).json({
             success: true,
-            message: 'Ajout effectué !'
+            message: 'Mise à jour effectué !'
         });
     } catch (error) {
         return res.json({
