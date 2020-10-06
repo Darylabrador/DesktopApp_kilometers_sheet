@@ -322,9 +322,14 @@ if(localStorage.getItem('isSuccess')){
 for(let i = 0; i < btnEditRow.length; i++){
     btnEditRow[i].addEventListener('click', evt => {
         let rowChildren = editRow[i].children;
-        for (let p = 0; p < rowChildren.length; p++){
+        for (let p = 0; p < (rowChildren.length - 2); p++){
             rowChildren[p].children[0].removeAttribute('disabled');
         }
         btnConfirmAllRow.removeAttribute('disabled');
+
+        let speedometerStart = document.querySelectorAll('.speedometerStart');
+        let speedometerEnd = document.querySelectorAll('.speedometerEnd');
+        let displayDistance = document.querySelectorAll('.displayDistance');
+        calculDistanceOnRow(speedometerStart, speedometerEnd, displayDistance);
     })
 }
