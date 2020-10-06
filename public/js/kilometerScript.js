@@ -2,9 +2,12 @@ let btnNewRow           = document.getElementById('newRow');
 let kilometerRowContent = document.getElementById('kilometerRowContent');
 let infoTotalKm         = document.getElementById('totalKm');
 let infoCompensation    = document.getElementById('compensation');
-let rowAction           = document.getElementById('rowAction');
 let btnConfirmAllRow    = document.getElementById('confirmAllRow');
 let kilometersheetId    = btnNewRow.getAttribute('data-id');
+
+let btnEditRow          = document.querySelectorAll('.btnEditRow');
+let editRowAction       = document.querySelectorAll('.editRowAction');
+let editRow             = document.querySelectorAll('.editRow');
 
 let urlSelect = "/kilometersheets/reasonselect";
 let urlAddRow = "/kilometersheets/addrows";
@@ -118,11 +121,6 @@ const calculDistanceOnRow = (speedometerStart, speedometerEnd, displayDistance) 
 }
 
 btnNewRow.addEventListener('click', evt => {
-    let infoClass = rowAction.classList.contains('d-none');
-    if(infoClass) {
-        rowAction.classList.remove('d-none');
-    }
-
     btnConfirmAllRow.removeAttribute('disabled');
 
     // create the row 
@@ -206,7 +204,7 @@ btnNewRow.addEventListener('click', evt => {
             btnDeleteRow[k].parentElement.parentElement.remove();
 
             let btnDeleteRowLength = document.querySelectorAll('.btnDeleteRow').length;
-            
+
             if (btnDeleteRowLength == 0) {
                 btnConfirmAllRow.setAttribute('disabled', "");
             }
@@ -318,4 +316,15 @@ if(localStorage.getItem('isSuccess')){
             localStorage.clear();
         }
     });
+}
+
+
+for(let i = 0; i < btnEditRow.length; i++){
+    btnEditRow[i].addEventListener('click', evt => {
+        let rowChildren = editRow[i].children;
+        for (let p = 0; p < rowChildren.length; p++){
+            rowChildren[p].children[0].removeAttribute('disabled');
+        }
+        btnConfirmAllRow.removeAttribute('disabled');
+    })
 }
