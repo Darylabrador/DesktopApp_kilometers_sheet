@@ -117,11 +117,6 @@ const calculDistanceOnRow = (speedometerStart, speedometerEnd, displayDistance) 
     }
 }
 
-
-const sendData = () => {
-
-}
-
 btnNewRow.addEventListener('click', evt => {
     let infoClass = rowAction.classList.contains('d-none');
     if(infoClass) {
