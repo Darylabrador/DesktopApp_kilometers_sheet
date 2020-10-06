@@ -123,6 +123,8 @@ btnNewRow.addEventListener('click', evt => {
         rowAction.classList.remove('d-none');
     }
 
+    btnConfirmAllRow.removeAttribute('disabled');
+
     // create the row 
     let newRowInput = document.createElement('tr');
     newRowInput.classList.add('kilometersheetrows');
@@ -198,14 +200,24 @@ btnNewRow.addEventListener('click', evt => {
 
     let btnDeleteRow = document.querySelectorAll('.btnDeleteRow');
     for (let k = 0; k < btnDeleteRow.length; k++) {
+        
+
         btnDeleteRow[k].addEventListener('click', evt => {
             btnDeleteRow[k].parentElement.parentElement.remove();
+
+            let btnDeleteRowLength = document.querySelectorAll('.btnDeleteRow').length;
+            
+            if (btnDeleteRowLength == 0) {
+                btnConfirmAllRow.setAttribute('disabled', "");
+            }
+
             let speedometerStart = document.querySelectorAll('.speedometerStart');
             let speedometerEnd   = document.querySelectorAll('.speedometerEnd');
             let displayDistance  = document.querySelectorAll('.displayDistance');
             calculDistanceOnRow(speedometerStart, speedometerEnd, displayDistance);
         });
     }
+    
 });
 
 // Confirm end edit before sending data
