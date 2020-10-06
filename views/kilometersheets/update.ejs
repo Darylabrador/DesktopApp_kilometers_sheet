@@ -64,15 +64,15 @@
                     <% kilometerSheetRowsInfo.forEach(info => { %>
                         <tr>
                             <td>
-                                <input disabled type="date" value="<%=info.date%>" class="dateRow">
+                                <input disabled type="date" value="<%=info.date%>" class="dateRow form-control">
                             </td>
                             
                             <td>
-                                <input disabled type="text" value="<%=info.travel%>" class="travelRow">
+                                <input disabled type="text" value="<%=info.travel%>" class="travelRow form-control">
                             </td>
                             
                             <td>
-                                <select disabled class="reasonRow">
+                                <select disabled class="reasonRow form-control">
                                     <% movereasonList.forEach(element => { %>
                                         <% if (element.id == info.moveReasonId) { %>
                                         <option selected value="<%=element.id%>"> <%= element.label %> </option>
@@ -82,15 +82,15 @@
                             </td>
                             
                             <td>
-                                <input disabled type="number" value="<%=info.speedometerStart%>" class="speedometerStart">
+                                <input disabled type="number" value="<%=info.speedometerStart%>" class="speedometerStart form-control">
                             </td>
                             
                             <td>
-                                <input disabled type="number" value="<%=info.speedometerEnd%>" class="speedometerEnd">
+                                <input disabled type="number" value="<%=info.speedometerEnd%>" class="speedometerEnd form-control">
                             </td>
                             
                             <td>
-                                <input disabled type="number" value="<%=info.distance%>" class="displayDistance">                            </td>
+                                <input disabled type="number" value="<%=info.distance%>" class="displayDistance form-control">                            </td>
                         </tr>
                     <% }) %>
                 </tbody>

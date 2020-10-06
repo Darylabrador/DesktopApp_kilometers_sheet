@@ -303,7 +303,7 @@ exports.postDeleteKilometerSheets = async (req, res, next) => {
             return res.redirect(`/kilometersheets`);
         }
 
-        await KilometerSheetsRows.destroy({ where: { id: kilometersheetId } });
+        await KilometerSheetsRows.destroy({ where: { kilometerSheetId: kilometersheetId } });
         await kilometerSheetInfo.destroy();
 
         req.flash('success', 'Suppression effectuer !');
