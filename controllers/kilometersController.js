@@ -1,4 +1,9 @@
+const fs                   = require('fs');
+const path                 = require('path');
+
 const { validationResult } = require('express-validator');
+const PDFDocument          = require('pdfkit');
+
 
 const Entities            = require('../models/entities');
 const Persons             = require('../models/persons');
@@ -10,6 +15,9 @@ const PersonsVehicles     = require('../models/personsVehicles');
 const PersonsWorkFors     = require('../models/personsworkfors');
 const KilometerSheetsRows = require('../models/kilometersheetrows');
 const Horsepowers         = require('../models/horsepowers');
+
+const pdfFunction         = require('../utils/pdfgenerator');
+
 
 /* --------------- ALL GET PAGE ABOUT KILOMETERS SHEETS  --------------- */
 
@@ -33,7 +41,7 @@ exports.getIndexKilometerSheets = async (req, res, next) => {
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/vehicles');
+        return res.redirect('/kilometersheets');
     }
 }
 
@@ -100,6 +108,8 @@ exports.getUpdateKilometerSheets = async (req, res, next) => {
 
         const movereasonList = await MoveReasons.findAll();
 
+        console.log(req.session.fileExist);
+
         res.render('kilometersheets/update', {
             backgroundColor: "bg-lightblue-color",
             kilometerSheetInfo, 
@@ -129,7 +139,7 @@ exports.getMovereason = async (req, res, next) => {
         })
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/vehicles');
+        return res.redirect('/kilometersheets');
     }
 }
 
@@ -311,5 +321,60 @@ exports.postDeleteKilometerSheets = async (req, res, next) => {
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
         return res.redirect('/kilometersheets');
+    }
+}
+
+
+/*  ---------------------  EXPORT SHEET INFO TO FILE  --------------------- */
+
+
+/**
+ * Export sheet to PDF
+ *
+ * @function exportSheets
+ */
+exports.exportSheets = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+
+        const infoSheet = await KilometerSheets.findOne({
+            where: {id},
+            include: [Entities, Vehicles, KilometerSheetRows]
+        });
+
+        // Define sheet title
+        let title      = infoSheet.entity.name.split(' ');
+        let sheetTitle = "";
+
+        if (title.length > 0) {
+            for (let i = 0; i < (title.length - 1); i++) {
+                sheetTitle += `${title[i]}_`;
+            }
+            sheetTitle += `${title[title.length - 1]}_${infoSheet.id}.pdf`
+        } else {
+            sheetTitle = `${infoSheet.entity.name}_${infoSheet.id}.pdf`;
+        }
+
+        const sheetPath = path.join('data', sheetTitle);
+
+        // Create pdf file
+        const doc = new PDFDocument({
+            size: 'A4',
+            layout: 'landscape',
+            autoFirstPage: false
+        });
+
+        doc.pipe(fs.createWriteStream(sheetPath).on('close', () => {
+            req.session.fileExist = true;
+            res.redirect(`/kilometersheets/update/${id}`)
+            doc.pipe(res);
+        }));
+
+        doc.addPage();
+        doc.end();
+
+    } catch (error) {
+        req.flash('error', 'Une erreur est survenue');
+        return res.redirect(`/kilometersheets/update/${id}`);
     }
 }

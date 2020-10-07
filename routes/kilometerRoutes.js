@@ -12,7 +12,7 @@ router.get('/create', isAuth, kilometersController.getCreateKilometerSheets);
 
 router.get('/update/:id', isAuth, kilometersController.getUpdateKilometerSheets);
 
-router.get('/export/:id', isAuth);
+router.get('/export/:id', isAuth, kilometersController.exportSheets);
 
 router.get('/reasonselect', isAuth, kilometersController.getMovereason);
 

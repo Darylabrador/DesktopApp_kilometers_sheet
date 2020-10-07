@@ -87,12 +87,10 @@ function start(callback) {
         database
           .sync()
           .then(result => {
-
             return Persons.findOne({ where: {login: 'daryl'} });
 
           }).then(userExit => {
             if(!userExit) {
-
               bcrypt.hash('123456', 12).then(hashedPwd => {
                 let startedAccount = new Persons({
                   login: 'daryl',
@@ -149,6 +147,8 @@ function init(callback) {
   expressApp.use(express.json());
   expressApp.use(express.urlencoded({ extended: false }));
   expressApp.use(express.static(path.join(__dirname, 'public')));
+  expressApp.use('/data', express.static(path.join(__dirname, 'data')));
+
 
   /** middleware setup */
   expressApp.use(
