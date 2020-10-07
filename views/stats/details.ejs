@@ -18,21 +18,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% for(let i = 0; i < totalKmPersons.length; i++) { %>
+                    <% totalKmPersons.forEach(element => { %>
                     <tr>
                         <td>
-                            <% personInfo.forEach(info => { %>
-                            <% if(totalKmPersons[i].personId == info.id) { %>
-                            <%= info.surname %> <%= info.name %>
-                            <% } %>
-                            <% }) %>
+                        <%= element.person.surname %> <%= element.person.name %>
                         </td>
-        
+                    
                         <td>
-                            <%= totalKmPersons[i].totalKm %>
+                            <%= element.dataValues.totalKm %>
                         </td>
                     </tr>
-                    <% } %>
+                    <% }) %>
                 </tbody>
             </table>
         </div>
@@ -46,21 +42,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% for(let i = 0; i < totalKmVehicle.length; i++) { %>
-                        <tr>
-                            <td>
-                                <% vehicleInfo.forEach(info => { %>
-                                    <% if(totalKmVehicle[i].vehicleId == info.id) { %>
-                                        <%= info.mark %> <%= info.model %> <%= info.registrationNumber %>
-                                    <% } %>
-                                <% }) %>
-                            </td>
+                    <% totalKmVehicle.forEach(element => { %>
+                    <tr>
+                        <td>
+                            <%= element.vehicle.mark %> <%= element.vehicle.model %> <%= element.vehicle.registrationNumber %>
+                        </td>
 
-                            <td>
-                                <%= totalKmVehicle[i].totalKm %>
-                            </td>
-                        </tr>
-                    <% } %>
+                        <td>
+                            <%= element.dataValues.totalKm %>
+                        </td>
+                    </tr>
+                    <% }) %>
                 </tbody>
             </table>
         </div>
@@ -75,16 +67,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% for(let i = 0; i < totalKmTravelArrayModif.length; i++) { %>
+                    <% totalKmTravel.forEach(element => { %>
                         <tr>
                             <td>
-                                <%= totalKmTravelArrayModif[i].travel %>
+                                <%= element.travel %>
                             </td>
                             <td>
-                                <%= totalKmTravelArrayModif[i].totalKmTravel %>
+                                <%= element.totalKmTravel %>
                             </td>
                         </tr>
-                    <% } %>
+                    <% }) %>
                 </tbody>
             </table>
         </div>

@@ -53,24 +53,10 @@ exports.getStats = async (req, res, next) => {
  * @returns {VIEW} stats detail view
  */
 exports.getStatsDetails = async (req, res, next) => {
-    let totalKmTravelArray = [];
-    let totalKmTravelArrayModif = [];
-    let totalKmTravelArrayFinal = [];
     const id = req.params.id;
 
     try {
-        const totalKmPersons = await KilometerSheets.findAll({
-            where: { entityId: id},
-            attributes: [
-                [sequelize.fn('sum', sequelize.col('totalKilometer')), 'totalKm'],
-                'vehicleId',
-                'personId'
-            ],
-            group: ['personId'],
-            raw: true
-        });
-
-        const totalKmVehicle = await KilometerSheets.findAll({
+        let totalKmVehicle = await KilometerSheets.findAll({
             where: { entityId: id },
             attributes: [
                 [sequelize.fn('sum', sequelize.col('totalKilometer')), 'totalKm'],
@@ -78,43 +64,44 @@ exports.getStatsDetails = async (req, res, next) => {
                 'personId'
             ],
             group: ['vehicleId'],
+            include: [{
+                model: Vehicles,
+                attributes: ['mark', 'model', 'registrationNumber']
+            }],
+            raw: false
+        });
+
+        const totalKmPersons = await KilometerSheets.findAll({
+            where: { entityId: id },
+            attributes: [
+                [sequelize.fn('sum', sequelize.col('totalKilometer')), 'totalKm'],
+                'personId'
+            ],
+            group: ['personId'],
+            include: [{
+                model: Persons,
+                attributes: ['name', 'surname']
+            }],
+            raw: false
+        });
+
+        let totalKmTravel = await KilometerSheetRows.findAll({
+            attributes: [
+                [sequelize.fn('sum', sequelize.col('distance')), 'totalKmTravel'],
+                'kilometerSheetId',
+                'travel'
+            ],
+            group: ['travel'],
+            include:[{
+                model: KilometerSheets,
+                where: { entityId: id }
+            }],
             raw: true
-        });
-
-        const infoSheets = await KilometerSheets.findAll({
-            where: { entityId: id }
-        });
-
-        for (let i = 0; i < infoSheets.length; i++){
-            let totalKmTravel = await KilometerSheetRows.findAll({
-                where: { kilometerSheetId: infoSheets[i].id },
-                attributes: [
-                    [sequelize.fn('sum', sequelize.col('distance')), 'totalKmTravel'],
-                    'kilometerSheetId',
-                    'travel'
-                ],
-                group: ['travel'],
-                raw: true
-            }); 
-            totalKmTravelArray.push(totalKmTravel)
-        }
-        
-        for (let i = 0; i < totalKmTravelArray.length; i++) { 
-            for (let j = 0; j < totalKmTravelArray[i].length; j++) {
-                totalKmTravelArrayModif.push({
-                    totalKmTravel: totalKmTravelArray[i][j].totalKmTravel,
-                    travel: totalKmTravelArray[i][j].travel
-                });
-            }
-        }
-
-        const personInfo  = await Persons.findAll();
-        const vehicleInfo = await Vehicles.findAll();
+        }); 
 
         res.render('stats/details', {
             backgroundColor: "bg-lightblue-color",
-            totalKmPersons, totalKmVehicle, totalKmTravelArrayModif,
-            personInfo, vehicleInfo
+            totalKmPersons, totalKmVehicle, totalKmTravel
         });
 
     } catch (error) {
