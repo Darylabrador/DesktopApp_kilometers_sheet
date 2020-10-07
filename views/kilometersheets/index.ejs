@@ -29,13 +29,11 @@
                         <td class="text" style="font-size: 14px !important"><%= info.entity.name %></td>
                         <td class="text" style="font-size: 14px !important"><%= info.vehicle.mark %> | <%= info.vehicle.model %> | <%= info.vehicle.registrationNumber %></td>
                         <td>
-                            <a href="/kilometersheets/update/<%= info.id %>" class=" bg-transparent border-0 mx-0 px-0">
-                                <span class="iconify iconify__black mx-1" data-inline="false" data-icon="ant-design:eye-filled"
-                                    style="color: black;"></span>
+                            <a draggable="false" href="/kilometersheets/update/<%= info.id %>" class=" bg-transparent border-0 mx-0 px-0">
+                                <span class="iconify iconify__black mx-1" data-inline="false" data-icon="ant-design:eye-filled" style="color: black;"></span>
                             </a>
-                            <a href="/kilometersheets/delete/<%= info.id %>" class=" bg-transparent border-0 mx-0 px-0">
-                                <span class="iconify iconify__red mx-1" data-inline="false" data-icon="fa-solid:trash"
-                                    style="color: red;"></span>
+                            <a draggable="false" href="/kilometersheets/delete/<%= info.id %>" class=" bg-transparent border-0 mx-0 px-0">
+                                <span class="iconify iconify__red mx-1" data-inline="false" data-icon="fa-solid:trash" style="color: red;"></span>
                             </a>
                         </td>
                     </tr>
