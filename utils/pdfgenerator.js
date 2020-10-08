@@ -25,7 +25,7 @@ exports.headerPdf = (doc, entity, person, vehicleType, vehicleYear, totalKm, com
 
 
 
-exports.corpsPdf = (doc, xEntete, yEntete, sheetRow) => {
+exports.corpsPdf = (doc, xEntete, yEntete, xRows, yRows, dateArray, travelArray, reasonArray, speedometerStartArray, speedometerEndArray, distanceArray, compteurInitPlage, compteurFinPlage, pageNumber) => {
     let bodyHeaderText = ['Date', 'Trajet', 'Commentaire', 'Compteur départ', 'Compteur arriver', 'Distance']
     for(let i = 0; i < 6; i++){
         doc.lineJoin('miter')
@@ -35,4 +35,24 @@ exports.corpsPdf = (doc, xEntete, yEntete, sheetRow) => {
             .text(bodyHeaderText[i], xEntete + 10, yEntete + 8);
         xEntete += 130;
     }
+
+    for (let k = compteurInitPlage; k < compteurFinPlage; k++) {
+        if (dateArray[k]) {
+            var bodyContent = [dateArray[k], travelArray[k], reasonArray[k], speedometerStartArray[k], speedometerEndArray[k], distanceArray[k]];
+            for (let l = 0; l < bodyContent.length; l++) {
+                doc.fontSize(9);
+                doc.lineJoin('miter')
+                    .rect(xRows + (130 * l), yRows, 130, 22)
+                    .stroke()
+                    .font('Helvetica')
+                    .text(bodyContent[l], (xRows + 10) + (130 * l), yRows + 10);
+            }
+            yRows += 22;
+        }
+    }
+
+    doc.fontSize(10);
+    doc
+        .font('Helvetica-Bold')
+        .text(pageNumber, 800, 550);
 }

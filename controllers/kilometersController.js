@@ -358,7 +358,10 @@ exports.createPdfSheets = async (req, res, next) => {
             where: {id},
             include: [
                 { model: Entities },
-                { model: KilometerSheetsRows},
+                {
+                    model: KilometerSheetsRows,
+                    include: [{ model: MoveReasons }]
+                },
                 { 
                     model: Vehicles,
                     include: [{model: Horsepowers}]
@@ -399,50 +402,55 @@ exports.createPdfSheets = async (req, res, next) => {
             doc.pipe(res);
         }));
 
-
+        // coordinates variables
         let xEntete = 35;
         let yEntete = 120;
-
-        /*
+        let xRows   = 35;
+        let yRows   = 142;
         var compteurInitPlage = 0;
-        var compteurFinPlage  = 5;
+        var compteurFinPlage  = 15;
+        var pageNumber = 1;
 
+        // Define array data that will be use to create pdf file
+        const dateArray             = [];
+        const travelArray           = [];
+        const reasonArray           = [];
+        const speedometerStartArray = [];
+        const speedometerEndArray   = [];
+        const distanceArray         = [];
+
+        infoSheet.kilometerSheetsRows.forEach(element => {
+            dateArray.push(element.date);
+            travelArray.push(element.travel);
+            reasonArray.push(element.moveReason.label);
+            speedometerStartArray.push(element.speedometerStart);
+            speedometerEndArray.push(element.speedometerEnd);
+            distanceArray.push(element.distance);
+        });
+
+        // 15 elements per page
         for (let i = 0; i < infoSheet.kilometerSheetsRows.length; i++){
-            doc.addPage();
+            if (i % 15 == 0) {
+                doc.addPage();
 
-            // create header docs
-            pdfFunction.headerPdf(
-                doc,
-                infoSheet.entity.name,
-                `${infoSheet.person.surname} ${infoSheet.person.name}`,
-                infoSheet.vehicle.horsepower.label,
-                infoSheet.vehicle.year,
-                infoSheet.totalKilometer,
-                infoSheet.compensation
-            );
+                // create header docs
+                pdfFunction.headerPdf(
+                    doc,
+                    infoSheet.entity.name,
+                    `${infoSheet.person.surname} ${infoSheet.person.name}`,
+                    infoSheet.vehicle.horsepower.label,
+                    infoSheet.vehicle.year,
+                    infoSheet.totalKilometer,
+                    infoSheet.compensation
+                );
 
-            // create body pdf
-            compteurInitPlage += 5;
-            compteurFinPlage  += 5;
+                // Create body
+                pdfFunction.corpsPdf(doc, xEntete, yEntete, xRows, yRows, dateArray, travelArray, reasonArray, speedometerStartArray, speedometerEndArray, distanceArray, compteurInitPlage, compteurFinPlage, pageNumber);
+                compteurInitPlage += 15;
+                compteurFinPlage += 15;
+                pageNumber ++;
+            }
         }
-
-        */
-
-
-        doc.addPage();
-
-        // create header docs
-        pdfFunction.headerPdf(
-            doc,
-            infoSheet.entity.name,
-            `${infoSheet.person.surname} ${infoSheet.person.name}`,
-            infoSheet.vehicle.horsepower.label,
-            infoSheet.vehicle.year,
-            infoSheet.totalKilometer,
-            infoSheet.compensation
-        );
-
-        pdfFunction.corpsPdf(doc, xEntete, yEntete, infoSheet.kilometerSheetsRows);
 
         doc.end();
 
