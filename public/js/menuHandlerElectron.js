@@ -1,5 +1,8 @@
 const { remote } = require('electron');
 
+/**
+ * Actions on the app window's
+ */
 $(function(){
     var actualWin = remote.getCurrentWindow();
 

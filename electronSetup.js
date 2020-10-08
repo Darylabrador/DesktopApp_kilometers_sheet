@@ -149,7 +149,6 @@ function init(callback) {
   expressApp.use(express.static(path.join(__dirname, 'public')));
   expressApp.use('/data', express.static(path.join(__dirname, 'data')));
 
-
   /** middleware setup */
   expressApp.use(
     session({

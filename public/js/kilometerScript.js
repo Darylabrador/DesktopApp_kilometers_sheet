@@ -15,7 +15,7 @@ let req = new XMLHttpRequest();
 let method, data;
 
 /**
- * Update total km info
+ * Update total km info on live
  */
 const updateTotalKm = () => {
     let resultDisplay  = 0;
@@ -42,9 +42,10 @@ const updateTotalKm = () => {
 
 
 /**
- * 
- * @param {number} speedometerStart 
- * @param {number} speedometerEnd 
+ * Calculate distance using speedometerStart and speedometerEnd values
+ * @param {*} speedometerStart nodelist
+ * @param {*} speedometerEnd nodelist
+ * @param {*} displayDistance nodelist
  */
 const calculDistanceOnRow = (speedometerStart, speedometerEnd, displayDistance) => {
     
@@ -120,6 +121,9 @@ const calculDistanceOnRow = (speedometerStart, speedometerEnd, displayDistance) 
     }
 }
 
+/**
+ * Interaction to create a row to add new info
+ */
 btnNewRow.addEventListener('click', evt => {
     btnConfirmAllRow.removeAttribute('disabled');
 
@@ -193,16 +197,15 @@ btnNewRow.addEventListener('click', evt => {
     let speedometerStart  = document.querySelectorAll('.speedometerStart');
     let speedometerEnd    = document.querySelectorAll('.speedometerEnd');
     let displayDistance   = document.querySelectorAll('.displayDistance');
-
     calculDistanceOnRow(speedometerStart, speedometerEnd, displayDistance);
 
+    /**
+     * Delete a specific row
+     */
     let btnDeleteRow = document.querySelectorAll('.btnDeleteRow');
     for (let k = 0; k < btnDeleteRow.length; k++) {
-        
-
         btnDeleteRow[k].addEventListener('click', evt => {
             btnDeleteRow[k].parentElement.parentElement.remove();
-
             let btnDeleteRowLength = document.querySelectorAll('.btnDeleteRow').length;
 
             if (btnDeleteRowLength == 0) {
@@ -218,7 +221,10 @@ btnNewRow.addEventListener('click', evt => {
     
 });
 
-// Confirm end edit before sending data
+
+/**
+* Confirm end edit before sending data
+*/
 btnConfirmAllRow.addEventListener('click', evt => {
     bootbox.confirm({
         centerVertical: true,
@@ -232,7 +238,6 @@ btnConfirmAllRow.addEventListener('click', evt => {
             }
         },
         callback: function (result) { 
-
             if(result) {
                 let isComplete = true;
                 let dateRowInfo           = document.querySelectorAll('.dateRow');
@@ -270,7 +275,6 @@ btnConfirmAllRow.addEventListener('click', evt => {
 
                 if(isComplete){
                     method = "POST";
-                    
                     data = {
                         kilometersheetId, infoTotalKmInfo, infoCompensationInfo,
                         dateRowArray, travelRowArray, reasonRowArray, speedometerStartArray, speedometerEndArray, distanceArray
@@ -308,6 +312,9 @@ btnConfirmAllRow.addEventListener('click', evt => {
     })
 });
 
+/**
+ * Display success message after adding rows
+ */
 if(localStorage.getItem('isSuccess')){
     bootbox.alert({
         centerVertical: true,
@@ -319,6 +326,9 @@ if(localStorage.getItem('isSuccess')){
 }
 
 
+/**
+ * Allow to edit existing information of specific row
+ */
 for(let i = 0; i < btnEditRow.length; i++){
     btnEditRow[i].addEventListener('click', evt => {
         let rowChildren = editRow[i].children;
@@ -326,7 +336,6 @@ for(let i = 0; i < btnEditRow.length; i++){
             rowChildren[p].children[0].removeAttribute('disabled');
         }
         btnConfirmAllRow.removeAttribute('disabled');
-
         let speedometerStart = document.querySelectorAll('.speedometerStart');
         let speedometerEnd = document.querySelectorAll('.speedometerEnd');
         let displayDistance = document.querySelectorAll('.displayDistance');
