@@ -11,9 +11,11 @@
 
         <div class="w-100 d-flex justify-content-end mb-2">
             <button id="newRow" class="btn btn-success" data-id="<%=kilometerSheetInfo.id%>"> Nouvelle ligne </button>
-            <button disabled="true" id="confirmAllRow" class="btn btn-primary ml-4"> Valider toutes les lignes </button>
+            <button disabled="true" id="confirmAllRow" class="btn btn-primary ml-4"> Sauvegarder </button>
         </div>
         
+        <% include ../includes/messageFlash %>
+
         <input type="hidden" id="case1" value="<%= horsepowersInfo.horsepower.case1 %>">
         <input type="hidden" id="case2" value="<%= horsepowersInfo.horsepower.case2 %>">
         <input type="hidden" id="case3" value="<%= horsepowersInfo.horsepower.case3 %>">

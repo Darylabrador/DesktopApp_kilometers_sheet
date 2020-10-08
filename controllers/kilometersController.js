@@ -85,7 +85,6 @@ exports.getCreateKilometerSheets = async (req, res, next) => {
 exports.getUpdateKilometerSheets = async (req, res, next) => {
     const id = req.params.id;
   
-
     try {
         const kilometerSheetInfo = await KilometerSheets.findOne({
             where: { personId: req.userId, id },
@@ -357,9 +356,21 @@ exports.createPdfSheets = async (req, res, next) => {
 
         const infoSheet = await KilometerSheets.findOne({
             where: {id},
-            include: [Entities, Vehicles, KilometerSheetRows]
+            include: [
+                { model: Entities },
+                { model: KilometerSheetsRows},
+                { 
+                    model: Vehicles,
+                    include: [{model: Horsepowers}]
+                },
+                {
+                    model: Persons,
+                    attributes: ['surname', 'name']
+                }
+            ]
         });
-        
+    
+
         // Define sheet title
         let title      = infoSheet.entity.name.split(' ');
         let sheetTitle = "";
@@ -383,12 +394,58 @@ exports.createPdfSheets = async (req, res, next) => {
         });
 
         doc.pipe(fs.createWriteStream(sheetPath).on('close', () => {
+            req.flash('success', 'Génération réussi !')
             res.redirect(`/kilometersheets/update/${id}`);
             doc.pipe(res);
         }));
 
+
+        let xEntete = 35;
+        let yEntete = 120;
+
+        /*
+        var compteurInitPlage = 0;
+        var compteurFinPlage  = 5;
+
+        for (let i = 0; i < infoSheet.kilometerSheetsRows.length; i++){
+            doc.addPage();
+
+            // create header docs
+            pdfFunction.headerPdf(
+                doc,
+                infoSheet.entity.name,
+                `${infoSheet.person.surname} ${infoSheet.person.name}`,
+                infoSheet.vehicle.horsepower.label,
+                infoSheet.vehicle.year,
+                infoSheet.totalKilometer,
+                infoSheet.compensation
+            );
+
+            // create body pdf
+            compteurInitPlage += 5;
+            compteurFinPlage  += 5;
+        }
+
+        */
+
+
         doc.addPage();
+
+        // create header docs
+        pdfFunction.headerPdf(
+            doc,
+            infoSheet.entity.name,
+            `${infoSheet.person.surname} ${infoSheet.person.name}`,
+            infoSheet.vehicle.horsepower.label,
+            infoSheet.vehicle.year,
+            infoSheet.totalKilometer,
+            infoSheet.compensation
+        );
+
+        pdfFunction.corpsPdf(doc, xEntete, yEntete, infoSheet.kilometerSheetsRows);
+
         doc.end();
+
     } catch (error) {
         console.log(error)
 
