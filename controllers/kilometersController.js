@@ -40,7 +40,7 @@ exports.getIndexKilometerSheets = async (req, res, next) => {
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/kilometersheets');
+        return res.redirect('/dashboard');
     }
 }
 
@@ -197,7 +197,7 @@ exports.getDeleteKilometerSheets = async (req, res, next) => {
  *
  * @function postCreateKilometerSheets
  * @returns {VIEW} redirect to '/kilometersheets/:id'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to /kilometersheets if one error occursed
  */
 exports.postCreateKilometerSheets = async (req, res, next) => {
     const { entityId, vehicleId } = req.body;
@@ -341,11 +341,11 @@ exports.postDeleteKilometerSheets = async (req, res, next) => {
 
 /*  ---------------------  EXPORT SHEET INFO TO FILE  --------------------- */
 
-
 /**
  * Create kilometerSheet PDF
  *
  * @function createPdfSheets
+ * @throws Will redirect to /kilometersheets/update/:id if one error occursed
  */
 exports.createPdfSheets = async (req, res, next) => {
     const {id} = req.body;
@@ -455,8 +455,6 @@ exports.createPdfSheets = async (req, res, next) => {
         doc.end();
 
     } catch (error) {
-        console.log(error)
-
         req.flash('error', 'Une erreur est survenue');
         return res.redirect(`/kilometersheets/update/${id}`);
     }

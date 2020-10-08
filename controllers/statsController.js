@@ -6,11 +6,6 @@ const Persons             = require('../models/persons');
 const Vehicles            = require('../models/vehicles');
 const KilometerSheets     = require('../models/kilometersheets');
 const KilometerSheetRows  = require('../models/kilometersheetrows');
-const MoveReasons         = require('../models/movereasons');
-const PersonsVehicles     = require('../models/personsVehicles');
-const PersonsWorkFors     = require('../models/personsworkfors');
-const KilometerSheetsRows = require('../models/kilometersheetrows');
-const Horsepowers         = require('../models/horsepowers');
 
 /**
  * Get stats page
@@ -39,16 +34,16 @@ exports.getStats = async (req, res, next) => {
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/stats');
+        return res.redirect('/dashboard');
     }
 }
 
 
 
 /**
- * Get stats detail page
+ * Get detailled stats page
  *
- * Render stats detail page
+ * Render detailled stats page
  * @function getStatsDetails
  * @returns {VIEW} stats detail view
  */
@@ -103,9 +98,8 @@ exports.getStatsDetails = async (req, res, next) => {
             backgroundColor: "bg-lightblue-color",
             totalKmPersons, totalKmVehicle, totalKmTravel
         });
-
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/stats');
+        return res.redirect('/dashboard');
     }
 }

@@ -1,10 +1,3 @@
-// Get all models
-
-
-
-/* --------------- GENERAL GET PAGE --------------- */
-
-
 /**
  * Get login page
  *

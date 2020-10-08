@@ -116,7 +116,7 @@ exports.getDeleteVehicles = async (req, res, next) => {
  *
  * @function postCreateVehicles
  * @returns {VIEW} redirect to '/vehicles'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to  '/vehicles' an error if one error occursed
  */
 exports.postCreateVehicles = async (req, res, next) => {
     const { mark, model, horsepower, year, registrationNumber } = req.body;
@@ -150,8 +150,8 @@ exports.postCreateVehicles = async (req, res, next) => {
  * Handle post update vehicles
  *
  * @function postUpdateVehicles
- * @returns {VIEW} redirect to '/vehicles/update'
- * @throws Will throw an error if one error occursed
+ * @returns {VIEW} redirect to '/vehicles'
+ * @throws Will redirect to  '/vehicles' an error if one error occursed
  */
 exports.postUpdateVehicles = async (req, res, next) => {
     const { mark, model, horsepower, year, registrationNumber } = req.body;
@@ -192,7 +192,7 @@ exports.postUpdateVehicles = async (req, res, next) => {
  *
  * @function postDeleteVehicles
  * @returns {VIEW} redirect to '/vehicles'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to  '/vehicles' an error if one error occursed
  */
 exports.postDeleteVehicles = async (req, res, next) => {
     const { vehiclesId } = req.body;
@@ -357,7 +357,7 @@ exports.postCreateAssociateVehicles = async (req, res, next) => {
  *
  * @function postDeleteAssociateVehicles
  * @returns {VIEW} redirect to '/vehicles/associate/liste'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to  '/vehicles/associate/liste' an error if one error occursed
  */
 exports.postDeleteAssociateVehicles = async (req, res, next) => {
     const { associateId } = req.body;
@@ -372,6 +372,6 @@ exports.postDeleteAssociateVehicles = async (req, res, next) => {
         return res.redirect('/vehicles/associate/liste');
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/vehicles');
+        return res.redirect('/vehicles/associate/liste');
     }
 }

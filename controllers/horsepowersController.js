@@ -23,7 +23,7 @@ exports.getIndexHorsepowers = async (req, res, next) => {
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/horsepowers');
+        return res.redirect('/dashboard');
     }
 }
 
@@ -106,7 +106,7 @@ exports.getDeleteHorsepowers = async (req, res, next) => {
  *
  * @function postCreateHorsepowers
  * @returns {VIEW} redirect to '/horsepowers'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to /horsepowers if one error occursed
  */
 exports.postCreateHorsepowers = async (req, res, next) => {
     const { label, case1, case2, case3 } = req.body;
@@ -152,7 +152,7 @@ exports.postCreateHorsepowers = async (req, res, next) => {
  *
  * @function postUpdateHorsepowers
  * @returns {VIEW} redirect to '/horsepowers/update/:id'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to /horsepowers if one error occursed
  */
 exports.postUpdateHorsepowers = async (req, res, next) => {
     const { horsepowersId, label, case1, case2, case3 } = req.body;
@@ -196,7 +196,7 @@ exports.postUpdateHorsepowers = async (req, res, next) => {
  *
  * @function postDeleteHorsepowers
  * @returns {VIEW} redirect to '/horsepowers'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to /horsepowers if one error occursed
  */
 exports.postDeleteHorsepowers = async (req, res, next) => {
     const { horsepowersId } = req.body;

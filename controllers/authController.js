@@ -1,15 +1,16 @@
 const bcrypt                = require('bcryptjs');
+
 const { validationResult }  = require('express-validator');
 
 const Persons = require('../models/persons'); 
 
-
 /**
  * Handle post login
- *
  * @function postLogin
+ * @param {string} login
+ * @param {string} password
  * @returns {VIEW} redirect to '/dashboard'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to '/' if one error occursed
  */
 exports.postLogin = async (req, res, next) => {
     const { login, password } = req.body;
@@ -40,9 +41,7 @@ exports.postLogin = async (req, res, next) => {
 
         req.flash('error', 'Identifiant ou mot de passe invalide');
         return res.redirect('/');
-        
     } catch (error) {
-        console.log(error)
         req.flash('error', 'Une erreur est survenue');
         return res.redirect('/');
     }
@@ -50,7 +49,6 @@ exports.postLogin = async (req, res, next) => {
 
 /**
  * Handle logout
- *
  * @function logout
  * @returns {VIEW} redirect to '/'
  */

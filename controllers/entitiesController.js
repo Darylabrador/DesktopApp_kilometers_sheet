@@ -24,7 +24,7 @@ exports.getIndexEntities = async (req, res, next) => {
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/entities');
+        return res.redirect('/dashboard');
     }
 }
 
@@ -108,7 +108,7 @@ exports.getDeleteEntities = async (req, res, next) => {
  *
  * @function postCreateEntities
  * @returns {VIEW} redirect to '/entities'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to /entities if one error occursed
  */
 exports.postCreateEntities = async (req, res, next) => {
     const { name, type } = req.body;
@@ -139,8 +139,8 @@ exports.postCreateEntities = async (req, res, next) => {
  * Handle post update entities
  *
  * @function postUpdateEntities
- * @returns {VIEW} redirect to '/entities/update'
- * @throws Will throw an error if one error occursed
+ * @returns {VIEW} redirect to '/entities/update
+ * @throws Will redirect to /entities if one error occursed  
  */
 exports.postUpdateEntities = async (req, res, next) => {
     const { entitiesId, name, type } = req.body;
@@ -175,7 +175,7 @@ exports.postUpdateEntities = async (req, res, next) => {
  *
  * @function postDeleteEntities
  * @returns {VIEW} redirect to '/entities'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to /entities if one error occursed
  */
 exports.postDeleteEntities = async (req, res, next) => {
     const { entitiesId } = req.body;
@@ -283,7 +283,7 @@ exports.getAssociateDeleteEntities = async (req, res, next) => {
  *
  * @function postCreateAssociateEntities
  * @returns {VIEW} redirect to '/entities/associate/liste'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to '/entities/associate/liste' if one error occursed
  */
 exports.postCreateAssociateEntities = async (req, res, next) => {
     const { individuId, entitiesId } = req.body;
@@ -339,7 +339,7 @@ exports.postCreateAssociateEntities = async (req, res, next) => {
  *
  * @function postDeleteAssociateEntities
  * @returns {VIEW} redirect to '/entities/associate/liste'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to '/entities' if one error occursed
  */
 exports.postDeleteAssociateEntities = async (req, res, next) => {
     const { associateId } = req.body;

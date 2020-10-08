@@ -24,7 +24,7 @@ exports.getIndexPersons = async (req, res, next) => {
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/persons');
+        return res.redirect('/dashboard');
     }
 }
 
@@ -102,13 +102,12 @@ exports.getDeletePersons = async (req, res, next) => {
 
 /* --------------- ALL POST PAGE ABOUT PERSONS --------------- */
 
-
 /**
  * Handle post create persons
  *
  * @function postCreatePersons
  * @returns {VIEW} redirect to '/persons'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to /persons if one error occursed
  */
 exports.postCreatePersons = async (req, res, next) => {
     const { name, surname, functionName } = req.body;
@@ -151,8 +150,8 @@ exports.postCreatePersons = async (req, res, next) => {
  * Handle post update persons
  *
  * @function postUpdatePersons
- * @returns {VIEW} redirect to '/persons/update'
- * @throws Will throw an error if one error occursed
+ * @returns {VIEW} redirect to '/persons'
+ * @throws Will redirect to /persons if one error occursed
  */
 exports.postUpdatePersons = async (req, res, next) => {
     const { personsId, name, surname, functionName } = req.body;
@@ -198,7 +197,7 @@ exports.postUpdatePersons = async (req, res, next) => {
  *
  * @function postDeletePersons
  * @returns {VIEW} redirect to '/persons'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to /persons if one error occursed
  */
 exports.postDeletePersons = async (req, res, next) => {
     const { personsId } = req.body;

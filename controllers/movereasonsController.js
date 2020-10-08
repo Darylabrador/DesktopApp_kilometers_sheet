@@ -22,7 +22,7 @@ exports.getIndexMovereasons = async (req, res, next) => {
         });
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
-        return res.redirect('/movereasons');
+        return res.redirect('/dashboard');
     }
 }
 
@@ -106,7 +106,7 @@ exports.getDeleteMovereasons = async (req, res, next) => {
  *
  * @function postCreateMovereasons
  * @returns {VIEW} redirect to '/movereasons'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to /movereasons if one error occursed
  */
 exports.postCreateMovereasons = async (req, res, next) => {
     const { label } = req.body;
@@ -133,8 +133,8 @@ exports.postCreateMovereasons = async (req, res, next) => {
  * Handle post update movereasons
  *
  * @function postUpdateMovereasons
- * @returns {VIEW} redirect to '/movereasons/update'
- * @throws Will throw an error if one error occursed
+ * @returns {VIEW} redirect to '/movereasons'
+ * @throws Will redirect to /movereasons if one error occursed
  */
 exports.postUpdateMovereasons = async (req, res, next) => {
     const { movereasonsId, label } = req.body;
@@ -170,7 +170,7 @@ exports.postUpdateMovereasons = async (req, res, next) => {
  *
  * @function postDeleteMovereasons
  * @returns {VIEW} redirect to '/movereasons'
- * @throws Will throw an error if one error occursed
+ * @throws Will redirect to /movereasons if one error occursed
  */
 exports.postDeleteMovereasons = async (req, res, next) => {
     const { movereasonsId } = req.body;
