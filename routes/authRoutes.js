@@ -1,9 +1,22 @@
-const express = require('express');
+/** Auth routes
+ * @module routers/auth
+ * @requires express express.Router()
+ */
+
 const authController = require('../controllers/authController');
+
 const { body } = require('express-validator');
 
-const router = express.Router();
+const router = require('express').Router();
 
+/**
+ * Handling user's connection
+ * @name postLogin POST
+ * @function
+ * @memberof module:routers/auth
+ * @param {string} '/login' - uri
+ * @param {function} authController.postLogin
+ */
 router.post(
     '/login',
     [
