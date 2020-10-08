@@ -174,9 +174,15 @@ function init(callback) {
         if (!user) {
           return next();
         }
-        req.userId = user.id;
-        res.locals.currentUserId = user._id;
+
+        // variables for controllers files
+        req.isAdmin                = user.role == 'administrator' ? true : false;
+        req.userId                 = user.id;
+
+        // local variables for views
+        res.locals.currentUserId   = user._id;
         res.locals.isAuthenticated = req.session.isLoggedIn;
+        res.locals.isAdmin         = user.role == 'administrator' ? true : false;
         next();
       })
       .catch(err => {

@@ -5,7 +5,11 @@
 <body class="bg-darkblue-color h-100">
     <% include ../includes/windowButtons , {backgroundColor: backgroundColor} %>
 
-    <% include ../includes/sidenav %>
+    <% if(isAdmin) { %>
+        <% include ../includes/sidenavAdmin %>
+    <% } else { %>
+        <% include ../includes/sidenav %>
+    <% } %>
 
     <div class="main pt-5">
 
