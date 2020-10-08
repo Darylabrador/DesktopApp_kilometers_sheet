@@ -223,12 +223,27 @@ exports.postDeleteVehicles = async (req, res, next) => {
  * @returns {VIEW} associate liste vehicles view
  */
 exports.getAssociateListVehicles = async (req, res, next) => {
+    var associateInfo;
+
     try {
-        const associateInfo = await PersonsVehicles.findAll({
-            include: [
-                Persons, Vehicles
-            ]
-        });
+
+        if(req.isAdmin) {
+            associateInfo = await PersonsVehicles.findAll({
+                include: [
+                    Persons, Vehicles
+                ]
+            });
+        } else {
+            associateInfo = await PersonsVehicles.findAll({
+                include: [
+                    { model: Vehicles },
+                    {
+                        model: Persons,
+                        where: {id: req.userId}
+                    }
+                ]
+            });
+        }
         res.render('vehicles/associateListe', {
             backgroundColor: "bg-lightblue-color",
             associateInfo
@@ -248,9 +263,16 @@ exports.getAssociateListVehicles = async (req, res, next) => {
  * @returns {VIEW} create associate vehicles view
  */
 exports.getAssociateCreateVehicles = async (req, res, next) => {
+    var personsInfo;
+    var vehiclesInfo;
     try {
-        const personsInfo = await Persons.findAll({ where: { role: 'guest' } });
-        const vehiclesInfo = await Vehicles.findAll({ include: Horsepowers });
+        if(req.isAdmin) {
+            personsInfo = await Persons.findAll({ where: { role: 'guest' } });
+            vehiclesInfo = await Vehicles.findAll({ include: Horsepowers });
+        } else {
+            personsInfo  = await Persons.findAll({ where: { role: 'guest', id: req.userId } });
+            vehiclesInfo = await Vehicles.findAll({ include: Horsepowers });
+        }
         res.render('vehicles/associateCreate', {
             backgroundColor: "bg-lightblue-color",
             personsInfo, vehiclesInfo
@@ -270,14 +292,20 @@ exports.getAssociateCreateVehicles = async (req, res, next) => {
  */
 exports.getAssociateDeleteVehicles = async (req, res, next) => {
     const id = req.params.id;
+    var associateInfo;
 
     try {
-        const associateInfo = await PersonsVehicles.findOne({
-            where: {id},
-            include: [
-                Persons, Vehicles
-            ]
-        });
+        if(req.isAdmin) {
+            associateInfo = await PersonsVehicles.findOne({
+                where: {id},
+                include: [Persons, Vehicles]
+            });
+        } else { 
+            associateInfo = await PersonsVehicles.findOne({
+                where: { id, personId: req.userId},
+                include: [ Persons, Vehicles ]
+            });
+        }
 
         if (!associateInfo){
             req.flash('error', 'Element introuvable');
@@ -303,7 +331,7 @@ exports.getAssociateDeleteVehicles = async (req, res, next) => {
  */
 exports.postCreateAssociateVehicles = async (req, res, next) => {
     const { individuId, vehicleId} = req.body;
-
+    var newVehiclesAssociate;
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -333,10 +361,18 @@ exports.postCreateAssociateVehicles = async (req, res, next) => {
         })
 
         if (!associateExist) {
-            const newVehiclesAssociate = new PersonsVehicles({
-                personId: individuId,
-                vehicleId: vehicleId
-            });
+            if(req.isAdmin) {
+                newVehiclesAssociate = new PersonsVehicles({
+                    personId: individuId,
+                    vehicleId: vehicleId
+                });
+            } else {
+                newVehiclesAssociate = new PersonsVehicles({
+                    personId: req.userId,
+                    vehicleId: vehicleId
+                });
+            }
+
             await newVehiclesAssociate.save();
             req.flash('success', 'Relation ajoutée avec succès !');
             return res.redirect('/vehicles/associate/liste');
@@ -361,12 +397,22 @@ exports.postCreateAssociateVehicles = async (req, res, next) => {
  */
 exports.postDeleteAssociateVehicles = async (req, res, next) => {
     const { associateId } = req.body;
+    var associateDelete;
+
     try {
-        const associateDelete = await PersonsVehicles.findByPk(associateId);
+        if(req.isAdmin) {
+            associateDelete = await PersonsVehicles.findByPk(associateId);
+        } else {
+            associateDelete = await PersonsVehicles.findOne({
+                where: { id: associateId, personId: req.userId}
+            });
+        }
+
         if (!associateDelete) {
             req.flash('error', 'Element introuvable');
             return res.redirect('/vehicles/associate/liste');
         }
+
         await associateDelete.destroy();
         req.flash('success', 'Suppression effectuer');
         return res.redirect('/vehicles/associate/liste');

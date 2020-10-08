@@ -54,7 +54,7 @@ router.get('/update/:id', isAuth, vehiclesController.getUpdateVehicles);
 * @param {string} '/vehicles/delete/:id' - uri
 * @param {function} vehiclesController.getDeleteVehicles
 */
-router.get('/delete/:id', isAuth, vehiclesController.getDeleteVehicles);
+router.get('/delete/:id', isAuth, isAdmin, vehiclesController.getDeleteVehicles);
 
 
 /**
@@ -200,6 +200,6 @@ router.post('/associate/delete', isAuth, vehiclesController.postDeleteAssociateV
  * @param {string} '/vehicles/delete' - uri
  * @param {function} vehiclesController.postDeleteVehicles
  */
-router.post('/delete', isAuth, vehiclesController.postDeleteVehicles);
+router.post('/delete', isAuth, isAdmin, vehiclesController.postDeleteVehicles);
 
 module.exports = router;

@@ -29,11 +29,19 @@ const pdfFunction         = require('../utils/pdfgenerator');
  * @returns {VIEW} index kilometerSheet view
  */
 exports.getIndexKilometerSheets = async (req, res, next) => {
+    var kilometerSheetInfo;
     try {
-        const kilometerSheetInfo = await KilometerSheets.findAll({
-            where: { personId: req.userId },
-            include: [Persons, Vehicles, Entities]
-        });
+        if(req.isAdmin) {
+            kilometerSheetInfo = await KilometerSheets.findAll({
+                include: [Persons, Vehicles, Entities]
+            });
+        } else {
+            kilometerSheetInfo = await KilometerSheets.findAll({
+                where: { personId: req.userId },
+                include: [Persons, Vehicles, Entities]
+            });
+        }
+
         res.render('kilometersheets/index', {
             backgroundColor: "bg-lightblue-color",
             kilometerSheetInfo
@@ -53,17 +61,18 @@ exports.getIndexKilometerSheets = async (req, res, next) => {
  * @returns {VIEW} create kilometerSheet view
  */
 exports.getCreateKilometerSheets = async (req, res, next) => {
+    var personsVehiclesInfo, personsWorkForInfo;
     try {
-        const personsVehiclesInfo = await PersonsVehicles.findAll({
-            where: { personId: req.userId},
+        personsVehiclesInfo = await PersonsVehicles.findAll({
+            where: { personId: req.userId },
             include: [Persons, Vehicles]
         });
 
-        const personsWorkForInfo = await PersonsWorkFors.findAll({
-            where: { personId: req.userId},
+        personsWorkForInfo = await PersonsWorkFors.findAll({
+            where: { personId: req.userId },
             include: [Persons, Entities]
         });
-
+        
         return res.render('kilometersheets/create', {
             backgroundColor: "bg-darkblue-color",
             personsVehiclesInfo, personsWorkForInfo
@@ -84,13 +93,21 @@ exports.getCreateKilometerSheets = async (req, res, next) => {
  */
 exports.getUpdateKilometerSheets = async (req, res, next) => {
     const id = req.params.id;
-  
-    try {
-        const kilometerSheetInfo = await KilometerSheets.findOne({
-            where: { personId: req.userId, id },
-            include: [Persons, Vehicles, Entities]
-        });
+    var kilometerSheetInfo;
 
+    try {
+        if(req.isAdmin) {
+            kilometerSheetInfo = await KilometerSheets.findOne({
+                where: { id },
+                include: [Persons, Vehicles, Entities]
+            });
+        } else {
+            kilometerSheetInfo = await KilometerSheets.findOne({
+                where: { personId: req.userId, id },
+                include: [Persons, Vehicles, Entities]
+            });
+        }
+        
         if (!kilometerSheetInfo) {
             req.flash('error', 'Fiche introuvable');
             return res.redirect('/kilometersheets');
@@ -222,14 +239,26 @@ exports.postCreateKilometerSheets = async (req, res, next) => {
             return res.redirect(`/kilometersheets`); 
         }
 
-        const newSheet = new KilometerSheets({ 
-            personId: req.userId,
-            entityId, vehicleId
+        const sheetExist = await KilometerSheets.findOne({
+            where: {
+                personId: req.userId,
+                entityId, vehicleId
+            }
         });
 
-        const newSheetSaved = await newSheet.save();
-        req.flash('success', 'Création effectuer !');
-        return res.redirect(`/kilometersheets/update/${newSheetSaved.id}`);
+        if (!sheetExist) {
+            const newSheet = new KilometerSheets({
+                personId: req.userId,
+                entityId, vehicleId
+            });
+
+            const newSheetSaved = await newSheet.save();
+            req.flash('success', 'Création effectuer !');
+            return res.redirect(`/kilometersheets/update/${newSheetSaved.id}`);
+        }
+   
+        req.flash('error', 'La fiche existe déjà');
+        return res.redirect(`/kilometersheets`);
     } catch (error) {
         req.flash('error', 'Une erreur est survenue');
         return res.redirect(`/kilometersheets`);
