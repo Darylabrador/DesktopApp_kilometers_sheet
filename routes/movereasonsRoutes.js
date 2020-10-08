@@ -8,6 +8,7 @@ const { body }              = require('express-validator');
 const movereasonsController = require('../controllers/movereasonsController');
 
 const isAuth = require('../middleware/is-auth');
+const isAdmin = require('../middleware/isAdmin');
 
 const router = require('express').Router();
 
@@ -20,7 +21,7 @@ const router = require('express').Router();
 * @param {string} '/movereasons' - uri
 * @param {function} movereasonsController.getIndexMovereasons
 */
-router.get('/', isAuth, movereasonsController.getIndexMovereasons);
+router.get('/', isAuth, isAdmin, movereasonsController.getIndexMovereasons);
 
 
 /**
@@ -31,7 +32,7 @@ router.get('/', isAuth, movereasonsController.getIndexMovereasons);
 * @param {string} '/movereasons/create' - uri
 * @param {function} movereasonsController.getCreateMovereasons
 */
-router.get('/create', isAuth, movereasonsController.getCreateMovereasons);
+router.get('/create', isAuth, isAdmin, movereasonsController.getCreateMovereasons);
 
 
 /**
@@ -42,7 +43,7 @@ router.get('/create', isAuth, movereasonsController.getCreateMovereasons);
 * @param {string} '/movereasons/update/:id' - uri
 * @param {function} movereasonsController.getUpdateMovereasons
 */
-router.get('/update/:id', isAuth, movereasonsController.getUpdateMovereasons);
+router.get('/update/:id', isAuth, isAdmin, movereasonsController.getUpdateMovereasons);
 
 
 /**
@@ -53,7 +54,7 @@ router.get('/update/:id', isAuth, movereasonsController.getUpdateMovereasons);
 * @param {string} '/movereasons/delete/:id' - uri
 * @param {function} movereasonsController.getDeleteMovereasons
 */
-router.get('/delete/:id', isAuth, movereasonsController.getDeleteMovereasons);
+router.get('/delete/:id', isAuth, isAdmin, movereasonsController.getDeleteMovereasons);
 
 
 /**
@@ -67,6 +68,7 @@ router.get('/delete/:id', isAuth, movereasonsController.getDeleteMovereasons);
 router.post(
     '/create',
     isAuth,
+    isAdmin,
     [
         body('label', 'Raison du déplacement obligatoire')
             .not()
@@ -87,6 +89,7 @@ router.post(
 router.post(
     '/update',
     isAuth,
+    isAdmin,
     [
         body('label', 'Raison du déplacement obligatoire')
             .not()
@@ -104,7 +107,7 @@ router.post(
  * @param {string} '/movereasons/delete' - uri
  * @param {function} movereasonsController.postDeleteMovereasons
  */
-router.post('/delete', isAuth, movereasonsController.postDeleteMovereasons);
+router.post('/delete', isAuth, isAdmin, movereasonsController.postDeleteMovereasons);
 
 
 module.exports = router;

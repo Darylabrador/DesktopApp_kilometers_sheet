@@ -8,6 +8,7 @@ const { body }           = require('express-validator');
 const vehiclesController = require('../controllers/vehiclesController');
 
 const isAuth = require('../middleware/is-auth');
+const isAdmin = require('../middleware/isAdmin');
 
 const router = require('express').Router();
 

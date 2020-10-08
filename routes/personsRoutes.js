@@ -9,6 +9,7 @@ const { body }           = require('express-validator');
 const personsController = require('../controllers/personsController');
 
 const isAuth = require('../middleware/is-auth');
+const isAdmin = require('../middleware/isAdmin');
 
 const router = require('express').Router();
 
@@ -20,7 +21,7 @@ const router = require('express').Router();
 * @param {string} '/persons' - uri
 * @param {function} personsController.getIndexPersons
 */
-router.get('/', isAuth, personsController.getIndexPersons);
+router.get('/', isAuth, isAdmin, personsController.getIndexPersons);
 
 
 /**
@@ -31,7 +32,7 @@ router.get('/', isAuth, personsController.getIndexPersons);
 * @param {string} '/persons/create' - uri
 * @param {function} personsController.getCreatePersons
 */
-router.get('/create', isAuth, personsController.getCreatePersons);
+router.get('/create', isAuth, isAdmin, personsController.getCreatePersons);
 
 
 /**
@@ -42,7 +43,7 @@ router.get('/create', isAuth, personsController.getCreatePersons);
 * @param {string} '/persons/update/:id' - uri
 * @param {function} personsController.getUpdatePersons
 */
-router.get('/update/:id', isAuth, personsController.getUpdatePersons);
+router.get('/update/:id', isAuth, isAdmin, personsController.getUpdatePersons);
 
 
 /**
@@ -53,7 +54,7 @@ router.get('/update/:id', isAuth, personsController.getUpdatePersons);
 * @param {string} '/persons/delete/:id' - uri
 * @param {function} personsController.getDeletePersons
 */
-router.get('/delete/:id', isAuth, personsController.getDeletePersons);
+router.get('/delete/:id', isAuth, isAdmin, personsController.getDeletePersons);
 
 
 /**
@@ -67,6 +68,7 @@ router.get('/delete/:id', isAuth, personsController.getDeletePersons);
 router.post(
     '/create',
     isAuth,
+    isAdmin,
     [
         body('name', 'Veuillez renseigner le nom')
             .not()
@@ -90,6 +92,7 @@ router.post(
 router.post(
     '/update',
     isAuth,
+    isAdmin,
     [
         body('name', 'Veuillez renseigner le nom')
             .not()
@@ -110,6 +113,6 @@ router.post(
  * @param {string} '/persons/delete' - uri
  * @param {function} personsController.postDeletePersons
  */
-router.post('/delete', isAuth, personsController.postDeletePersons);
+router.post('/delete', isAuth, isAdmin, personsController.postDeletePersons);
 
 module.exports = router;

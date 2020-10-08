@@ -10,6 +10,7 @@ const { body }                  = require('express-validator');
 const horsepowersController = require('../controllers/horsepowersController');
 
 const isAuth = require('../middleware/is-auth');
+const isAdmin = require('../middleware/isAdmin');
 
 const router = express.Router();
 
@@ -21,7 +22,7 @@ const router = express.Router();
  * @param {string} '/horsepowers' - uri
  * @param {function} horsepowersController.getIndexHorsepowers
  */
-router.get('/', isAuth, horsepowersController.getIndexHorsepowers);
+router.get('/', isAuth, isAdmin, horsepowersController.getIndexHorsepowers);
 
 
 /**
@@ -32,7 +33,7 @@ router.get('/', isAuth, horsepowersController.getIndexHorsepowers);
  * @param {string} '/horsepowers/create' - uri
  * @param {function} horsepowersController.getCreateHorsepowers
  */
-router.get('/create', isAuth, horsepowersController.getCreateHorsepowers);
+router.get('/create', isAuth, isAdmin, horsepowersController.getCreateHorsepowers);
 
 
 /**
@@ -43,7 +44,7 @@ router.get('/create', isAuth, horsepowersController.getCreateHorsepowers);
  * @param {string} '/horsepowers/update/:id' - uri
  * @param {function} horsepowersController.getUpdateHorsepowers
  */
-router.get('/update/:id', isAuth, horsepowersController.getUpdateHorsepowers);
+router.get('/update/:id', isAuth, isAdmin, horsepowersController.getUpdateHorsepowers);
 
 
 /**
@@ -54,7 +55,7 @@ router.get('/update/:id', isAuth, horsepowersController.getUpdateHorsepowers);
  * @param {string} '/horsepowers/delete/:id' - uri
  * @param {function} horsepowersController.getDeleteHorsepowers
  */
-router.get('/delete/:id', isAuth, horsepowersController.getDeleteHorsepowers);
+router.get('/delete/:id', isAuth, isAdmin, horsepowersController.getDeleteHorsepowers);
 
 
 /**
@@ -68,6 +69,7 @@ router.get('/delete/:id', isAuth, horsepowersController.getDeleteHorsepowers);
 router.post(
     '/create', 
     isAuth, 
+    isAdmin,
     [
         body('label', 'Veuillez saisir la description')
             .not()
@@ -99,6 +101,7 @@ router.post(
 router.post(
     '/update',
     isAuth,
+    isAdmin,
     [
         body('label', 'Veuillez saisir la description')
             .not()
@@ -127,6 +130,6 @@ router.post(
  * @param {string} '/horsepowers/delete' - uri
  * @param {function} horsepowersController.postDeleteHorsepowers
  */
-router.post('/delete', isAuth, horsepowersController.postDeleteHorsepowers);
+router.post('/delete', isAuth, isAdmin, horsepowersController.postDeleteHorsepowers);
 
 module.exports = router;

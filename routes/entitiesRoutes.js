@@ -8,6 +8,7 @@ const entitiesController  = require('../controllers/entitiesController');
 const { body }            = require('express-validator');
 
 const isAuth = require('../middleware/is-auth');
+const isAdmin = require('../middleware/isAdmin');
 
 const router = require('express').Router();
 
@@ -19,7 +20,7 @@ const router = require('express').Router();
  * @param {string} '/entities' - uri
  * @param {function} entitiesController.getIndexEntities
  */
-router.get('/', isAuth, entitiesController.getIndexEntities);
+router.get('/', isAuth, isAdmin, entitiesController.getIndexEntities);
 
 
 /**
@@ -30,7 +31,7 @@ router.get('/', isAuth, entitiesController.getIndexEntities);
  * @param {string} '/entities/create' - uri
  * @param {function} entitiesController.getCreateEntities
  */
-router.get('/create', isAuth, entitiesController.getCreateEntities);
+router.get('/create', isAuth, isAdmin, entitiesController.getCreateEntities);
 
 
 /**
@@ -41,7 +42,7 @@ router.get('/create', isAuth, entitiesController.getCreateEntities);
  * @param {string} '/entities/update/:id' - uri
  * @param {function} entitiesController.getUpdateEntities
  */
-router.get('/update/:id', isAuth, entitiesController.getUpdateEntities);
+router.get('/update/:id', isAuth, isAdmin, entitiesController.getUpdateEntities);
 
 
 /**
@@ -52,7 +53,7 @@ router.get('/update/:id', isAuth, entitiesController.getUpdateEntities);
  * @param {string} '/entities/delete/:id' - uri
  * @param {function} entitiesController.getDeleteEntities
  */
-router.get('/delete/:id', isAuth, entitiesController.getDeleteEntities);
+router.get('/delete/:id', isAuth, isAdmin, entitiesController.getDeleteEntities);
 
 
 /**
@@ -63,7 +64,7 @@ router.get('/delete/:id', isAuth, entitiesController.getDeleteEntities);
  * @param {string} '/entities/associate/liste' - uri
  * @param {function} entitiesController.getAssociateListEntities
  */
-router.get('/associate/liste', isAuth, entitiesController.getAssociateListEntities);
+router.get('/associate/liste', isAuth, isAdmin, entitiesController.getAssociateListEntities);
 
 
 /**
@@ -74,7 +75,7 @@ router.get('/associate/liste', isAuth, entitiesController.getAssociateListEntiti
  * @param {string} '/entities/associate/create' - uri
  * @param {function} entitiesController.getAssociateCreateEntities
  */
-router.get('/associate/create', isAuth, entitiesController.getAssociateCreateEntities);
+router.get('/associate/create', isAuth, isAdmin, entitiesController.getAssociateCreateEntities);
 
 
 /**
@@ -85,7 +86,7 @@ router.get('/associate/create', isAuth, entitiesController.getAssociateCreateEnt
  * @param {string} '/entities/associate/delete/:id' - uri
  * @param {function} entitiesController.getAssociateDeleteEntities
  */
-router.get('/associate/delete/:id', isAuth, entitiesController.getAssociateDeleteEntities);
+router.get('/associate/delete/:id', isAuth, isAdmin, entitiesController.getAssociateDeleteEntities);
 
 
 /**
@@ -99,6 +100,7 @@ router.get('/associate/delete/:id', isAuth, entitiesController.getAssociateDelet
 router.post(
     '/create',
     isAuth,
+    isAdmin,
     [
         body('name', 'Veuillez saisir le nom de l\'entité')
             .not()
@@ -119,6 +121,7 @@ router.post(
 router.post(
     '/update',
     isAuth,
+    isAdmin,
     [
         body('name', 'Veuillez saisir le nom de l\'entité')
             .not()
@@ -136,7 +139,7 @@ router.post(
  * @param {string} '/entities/delete' - uri
  * @param {function} entitiesController.postDeleteEntities
  */
-router.post('/delete', isAuth, entitiesController.postDeleteEntities);
+router.post('/delete', isAuth, isAdmin, entitiesController.postDeleteEntities);
 
 
 /**
@@ -150,6 +153,7 @@ router.post('/delete', isAuth, entitiesController.postDeleteEntities);
 router.post(
     '/associate/create',
     isAuth,
+    isAdmin,
     [
         body('individuId', 'Veuillez renseigner l\'individu')
             .not()
@@ -170,7 +174,7 @@ router.post(
  * @param {string} '/entities/associate/delete' - uri
  * @param {function} entitiesController.postDeleteAssociateEntities
  */
-router.post('/associate/delete', isAuth, entitiesController.postDeleteAssociateEntities);
+router.post('/associate/delete', isAuth, isAdmin, entitiesController.postDeleteAssociateEntities);
 
 
 module.exports = router;

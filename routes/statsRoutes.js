@@ -6,6 +6,7 @@
 const router   = require('express').Router();
 
 const isAuth   = require('../middleware/is-auth');
+const isAdmin = require('../middleware/isAdmin');
 
 const statsController = require('../controllers/statsController');
 
@@ -17,7 +18,7 @@ const statsController = require('../controllers/statsController');
 * @param {string} '/stats' - uri
 * @param {function} statsController.getStats
 */
-router.get('/', isAuth, statsController.getStats);
+router.get('/', isAuth, isAdmin,statsController.getStats);
 
 
 /**
@@ -28,6 +29,6 @@ router.get('/', isAuth, statsController.getStats);
 * @param {string} '/stats' - uri
 * @param {function} statsController.getStats
 */
-router.get('/details/:id', isAuth, statsController.getStatsDetails);
+router.get('/details/:id', isAuth, isAdmin,statsController.getStatsDetails);
 
 module.exports = router;
