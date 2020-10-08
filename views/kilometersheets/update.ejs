@@ -41,9 +41,15 @@
                         <input disabled type="number" value="<%=kilometerSheetInfo.compensation%>" id="compensation">
                     </td>
                     <td class="text-center" style="font-size: 14px !important"> 
-                        <a draggable="false" href="/kilometersheets/export/<%= kilometerSheetInfo.id %>" class="btn btnExport bg-transparent border-0 mx-0 px-0">
-                            <span class="iconify iconify__red mx-1" data-inline="false" data-icon="foundation:page-export-pdf" style="font-size: 25px !important"></span>
-                        </a>
+                        <% if(kilometerSheetInfo.fileExist) { %>
+                            <a download="<%=sheetTitle%>" class="btn btnExport bg-transparent border-0 mx-0 px-0" href="/data/<%=sheetTitle%>" >
+                                <span class="iconify iconify__red mx-1" data-inline="false" data-icon="foundation:page-export-pdf" style="font-size: 25px !important"></span>
+                            </a>
+                        <% } else { %>
+                            <button type="button" class="btn btnExport bg-transparent border-0 mx-0 px-0" data-toggle="modal" data-target="#modalExport">
+                                <span class="iconify iconify__red mx-1" data-inline="false" data-icon="foundation:page-export-pdf" style="font-size: 25px !important"></span>
+                            </button>
+                        <% } %>
                     </td>
                 </tr>
             </table>
@@ -106,6 +112,29 @@
                     <% }) %>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalExport" tabindex="-1" role="dialog" aria-labelledby="modalExportLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalExportLabel">Export de la fiche au format PDF</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/kilometersheets/export" method="POST" class="modal-body p-0 m-0">
+                    <input type="hidden" name="id" value="<%=kilometerSheetInfo.id%>">
+                    <p class="text-center">Vous devez générer votre PDF avant de pouvoir le télécharger</p>
+
+                    <div class="p-0 d-flex">
+                        <button data-dismiss="modal" class="btn btn-form-color w-50 leftBorder py-2">Annuler</button>
+                        <div class="btnDivider"></div>
+                        <button type="submit" class="btn btn-form-color w-50 rightBorder py-2">Générer</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 

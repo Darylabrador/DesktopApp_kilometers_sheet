@@ -12,8 +12,6 @@ router.get('/create', isAuth, kilometersController.getCreateKilometerSheets);
 
 router.get('/update/:id', isAuth, kilometersController.getUpdateKilometerSheets);
 
-router.get('/export/:id', isAuth, kilometersController.exportSheets);
-
 router.get('/reasonselect', isAuth, kilometersController.getMovereason);
 
 router.get('/delete/:id', isAuth, kilometersController.getDeleteKilometerSheets);
@@ -35,5 +33,7 @@ router.post(
 router.post('/addrows', isAuth, kilometersController.postAddRowKilometerSheets)
 
 router.post('/delete', isAuth, kilometersController.postDeleteKilometerSheets)
+
+router.post('/export', isAuth, kilometersController.createPdfSheets);
 
 module.exports = router;

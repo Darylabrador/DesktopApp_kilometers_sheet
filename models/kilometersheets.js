@@ -23,6 +23,10 @@ const KilometerSheets = sequelize.define('kilometerSheets', {
         allowNull: true,
         defaultValue: 0
     },
+    fileExist: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    }
 }, { timestamps: true });
 
 module.exports = KilometerSheets;
