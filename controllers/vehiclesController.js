@@ -129,18 +129,29 @@ exports.postCreateVehicles = async (req, res, next) => {
     }
 
     try {
-        const newVehicles = new Vehicles({
-            mark, model, 
-            horsepowerId: horsepower,
-            year, registrationNumber
-        });
+        const vehiculExist = await Vehicles.findOne({
+            where: {
+                mark, model,
+                horsepowerId: horsepower,
+                year, registrationNumber
+            }
+        })
 
-        await newVehicles.save();
-        req.flash('success', 'Création effectuer !');
+        if (!vehiculExist) {
+            const newVehicles = new Vehicles({
+                mark, model,
+                horsepowerId: horsepower,
+                year, registrationNumber
+            });
+
+            await newVehicles.save();
+            req.flash('success', 'Création effectuer !');
+            return res.redirect('/vehicles');
+        }
+
+        req.flash('error', 'Vehicule existe déjà');
         return res.redirect('/vehicles');
-
     } catch (error) {
-        console.log(error)
         req.flash('error', 'Une erreur est survenue');
         return res.redirect('/vehicles');
     }

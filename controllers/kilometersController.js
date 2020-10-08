@@ -183,13 +183,21 @@ exports.getMovereason = async (req, res, next) => {
  */
 exports.getDeleteKilometerSheets = async (req, res, next) => {
     const id = req.params.id;
+    var kilometerSheetInfo;
 
     try {
-        const kilometerSheetInfo = await KilometerSheets.findOne({
-            where: { personId: req.userId, id },
-            include: [Persons, Vehicles, Entities]
-        });
-
+        if(req.isAdmin) {
+            kilometerSheetInfo = await KilometerSheets.findOne({
+                where: { id },
+                include: [Persons, Vehicles, Entities]
+            });
+        } else {
+            kilometerSheetInfo = await KilometerSheets.findOne({
+                where: { personId: req.userId, id },
+                include: [Persons, Vehicles, Entities]
+            });
+        }
+  
         if(!kilometerSheetInfo){
             req.flash('error', 'Fiche introuvable');
             return res.redirect('/kilometersheets');
@@ -267,7 +275,6 @@ exports.postCreateKilometerSheets = async (req, res, next) => {
 
 
 
-
 /**
  * Handle post add row to kilometerSheet info
  *
@@ -342,15 +349,23 @@ exports.postAddRowKilometerSheets = async (req, res, next) => {
  */
 exports.postDeleteKilometerSheets = async (req, res, next) => {
     const { kilometersheetId } = req.body;
-
+    var kilometerSheetInfo;
     try {
-        const kilometerSheetInfo = await KilometerSheets.findOne({
-            where: { 
-                personId: req.userId, 
-                id: kilometersheetId
-            },
-        });
-
+        if(req.isAdmin) {
+            kilometerSheetInfo = await KilometerSheets.findOne({
+                where: {
+                    id: kilometersheetId
+                },
+            });
+        } else {
+            kilometerSheetInfo = await KilometerSheets.findOne({
+                where: {
+                    personId: req.userId,
+                    id: kilometersheetId
+                },
+            });
+        }
+        
         if (!kilometerSheetInfo){
             req.flash('error', 'Fiche inexistante');
             return res.redirect(`/kilometersheets`);
