@@ -87,16 +87,16 @@ function start(callback) {
         database
           .sync()
           .then(result => {
-            return Persons.findOne({ where: {login: 'daryl'} });
+            return Persons.findOne({ where: { login: 'administrator'} });
 
           }).then(userExit => {
             if(!userExit) {
               bcrypt.hash('123456', 12).then(hashedPwd => {
                 let startedAccount = new Persons({
-                  login: 'daryl',
+                  login: 'administrator',
                   password: hashedPwd,
-                  name: 'Daryl',
-                  surname: 'ABRADOR',
+                  name: 'John',
+                  surname: 'Doe',
                   role: 'administrator'
                 });
 

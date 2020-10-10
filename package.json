@@ -7,7 +7,8 @@
     "start": "electron ./app.js",
     "elecdev": "electromon ./app.js",
     "sass": "sass --watch ./public/scss/base/style.scss:./public/css/style.css",
-    "compressed": "sass ./public/scss/base/style.scss:./public/css/style.css --style compressed"
+    "compressed": "sass ./public/scss/base/style.scss:./public/css/style.css --style compressed",
+    "doc": "./node_modules/.bin/jsdoc -c ./jsdoc-conf.json"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
