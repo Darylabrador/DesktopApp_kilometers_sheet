@@ -1,21 +1,12 @@
 # Destop App using ElectronJs & Nodejs : Kilometers Sheets
 
 Here we have the demonstration when we are connected as Administrator :
-
-<p align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/aTjXqtkhmYU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</p>
-
-<p align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/lz7Fs5A3v60" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</p>
+- https://www.youtube.com/watch?v=aTjXqtkhmYU
+- https://www.youtube.com/watch?v=lz7Fs5A3v60
 
 Here we have the demonstration when we are connected as Guest :
+- https://www.youtube.com/watch?v=-1uilrPiq6g
 
-<video controls>
-  <source src="https://github.com/Darylabrador/DesktopApp_kilometers_sheet/blob/master/ressources/demo-app-guest.mp4" type="video/mp4">
-  <p>You can't watch using HTML 5, so you can also watch here. <a href="https://www.youtube.com/watch?v=-1uilrPiq6g">On Youtube</a></p>
-</video>
 
 ## Informations : 
 
