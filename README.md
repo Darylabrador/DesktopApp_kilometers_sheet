@@ -3,17 +3,17 @@
 Here we have the demonstration when we are connected as Administrator :
 
 <p align="center">
-    <iframe src="https://youtu.be/aTjXqtkhmYU" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/aTjXqtkhmYU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </p>
 
 <p align="center">
-    <iframe src="https://youtu.be/lz7Fs5A3v60" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/lz7Fs5A3v60" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </p>
 
 Here we have the demonstration when we are connected as Guest :
 
 <p align="center">
-    <iframe src="https://youtu.be/-1uilrPiq6g" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-1uilrPiq6g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </p>
 
 ## Informations : 
